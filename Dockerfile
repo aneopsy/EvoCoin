@@ -1,4 +1,4 @@
-kFROM node:6
+FROM node:6
 
 VOLUME /naivecoin
 
