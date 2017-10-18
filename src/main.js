@@ -1,9 +1,11 @@
 'use strict';
 var CryptoJS = require("crypto-js");
-var express = require("express");
+var express = require('express');
 var bodyParser = require("body-parser");
 var WebSocket = require("ws");
 var Blockchain = require("./blockchain.js")
+var initP2PServer = require("./p2pServer.js")
+var jayson = require('jayson');
 
 var http_port = process.env.HTTP_PORT || 3001;
 var p2p_port = process.env.P2P_PORT || 6001;
@@ -19,44 +21,42 @@ var MessageType = {
 
 let BC = new Blockchain();
 
-var parsing = (req, res) => {
-  if(!req.body || req.body.length === 0) {
-    console.log('request body not found');
-    return res.sendStatus(400);
-  }
-  res.send(req.body.data);
-  //res.status(200).send();
-}
+
 var initHttpServer = () => {
     var app = express();
+
     app.use(bodyParser.json());
 
-    app.post('/', (req, res) => parsing(req, res));
-
-    // app.get('/blocks', (req, res) => res.send(JSON.stringify(BC.getBlockchain())));
-    // app.post('/mineBlock', (req, res) => {
-    //     BC.generateNextBlock(req.body.data);
-    //     broadcast(responseLatestMsg());
-    //     console.log('block added: ' + JSON.stringify(BC.getLatestBlock()));
-    //     res.send();
-    // });
-    // app.get('/peers', (req, res) => {
-    //     res.send(sockets.map(s => s._socket.remoteAddress + ':' + s._socket.remotePort));
-    // });
-    // app.post('/addPeer', (req, res) => {
-    //     connectToPeers([req.body.peer]);
-    //     res.send();
-    // });
+    app.get('/blocks', (req, res) => res.send(JSON.stringify(BC.getBlockchain())));
+    app.post('/mineBlock', (req, res) => {
+        BC.generateNextBlock(req.body.data);
+        broadcast(responseLatestMsg());
+        console.log('block added: ' + JSON.stringify(BC.getLatestBlock()));
+        res.send();
+    });
+    app.get('/peers', (req, res) => {
+        res.send(sockets.map(s => s._socket.remoteAddress + ':' + s._socket.remotePort));
+    });
+    app.post('/addPeer', (req, res) => {
+        connectToPeers([req.body.peer]);
+        res.send();
+    });
+    app.post('/', (req, res) => {
+      if(!req.body || req.body.length === 0) {
+        console.log('request body not found');
+        return res.sendStatus(400);
+      }
+      BC.generateNextBlock(req.body.data);
+      broadcast(responseLatestMsg());
+      console.log('block added: ' + JSON.stringify(BC.getLatestBlock()));
+      res.send();
+      //res.status(200).send();
+    });
     app.listen(http_port, () => console.log('Listening http on port: ' + http_port));
 };
 
 
-var initP2PServer = () => {
-    var server = new WebSocket.Server({port: p2p_port});
-    server.on('connection', ws => initConnection(ws));
-    console.log('listening websocket p2p port on: ' + p2p_port);
 
-};
 
 var initConnection = (ws) => {
     sockets.push(ws);
@@ -138,5 +138,15 @@ var write = (ws, message) => ws.send(JSON.stringify(message));
 var broadcast = (message) => sockets.forEach(socket => write(socket, message));
 
 connectToPeers(initialPeers);
-initHttpServer();
-initP2PServer();
+const app = express();
+initHttpServer(app, http_port);
+initP2PServer.initP2PServer(p2p_port);
+
+// create a server
+var server = jayson.server({
+  add: function(args, callback) {
+    callback(null, args[0] + args[1]);
+  }
+});
+
+server.http().listen(3000);
