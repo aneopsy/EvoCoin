@@ -1,12 +1,9 @@
-FROM node:4.6
+kFROM node:6
 
-RUN mkdir /naivechain
-ADD package.json /naivechain/
-ADD main.js /naivechain/
+VOLUME /naivecoin
 
-RUN cd /naivechain && npm install
+WORKDIR /naivecoin
+
+ENTRYPOINT node bin/naivecoin.js
 
 EXPOSE 3001
-EXPOSE 6001
-
-ENTRYPOINT cd /naivechain && npm install && PEERS=$PEERS npm start
