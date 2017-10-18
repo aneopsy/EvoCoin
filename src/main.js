@@ -11,6 +11,7 @@ var http_port = process.env.HTTP_PORT || 3001;
 var p2p_port = process.env.P2P_PORT || 6001;
 var initialPeers = process.env.PEERS ? process.env.PEERS.split(',') : [];
 
+const VERSION = 0;
 
 var sockets = [];
 var MessageType = {
@@ -24,7 +25,6 @@ let BC = new Blockchain();
 
 var initHttpServer = () => {
     var app = express();
-
     app.use(bodyParser.json());
 
     app.get('/blocks', (req, res) => res.send(JSON.stringify(BC.getBlockchain())));
@@ -40,17 +40,6 @@ var initHttpServer = () => {
     app.post('/addPeer', (req, res) => {
         connectToPeers([req.body.peer]);
         res.send();
-    });
-    app.post('/', (req, res) => {
-      if(!req.body || req.body.length === 0) {
-        console.log('request body not found');
-        return res.sendStatus(400);
-      }
-      BC.generateNextBlock(req.body.data);
-      broadcast(responseLatestMsg());
-      console.log('block added: ' + JSON.stringify(BC.getLatestBlock()));
-      res.send();
-      //res.status(200).send();
     });
     app.listen(http_port, () => console.log('Listening http on port: ' + http_port));
 };
@@ -142,11 +131,29 @@ const app = express();
 initHttpServer(app, http_port);
 initP2PServer.initP2PServer(p2p_port);
 
-// create a server
-var server = jayson.server({
+var methods = {
   add: function(args, callback) {
     callback(null, args[0] + args[1]);
+  },
+  net_version: function(args, callback) {
+    callback(null, VERSION);
+  },
+  net_peerCount: function(args, callback) {
+    callback(null, initP2PServer.listPeers().length.toString(16));
+  },
+  blockNumber: function(args, callback) {
+    callback(null, BC.getBlockchain().length.toString(16));
+  },
+  sendTransaction: function(args, callback) {
+    BC.generateNextBlock(args);
+    console.log('block added: ' + JSON.stringify(BC.getLatestBlock()));
+    callback(null, null);
   }
+};
+
+var server = jayson.server(methods, {
+  collect: true,
+  params: Array
 });
 
-server.http().listen(3000);
+server.http().listen(3000, () => console.log('Listening JSON-RPC on port: ' + 3000));
