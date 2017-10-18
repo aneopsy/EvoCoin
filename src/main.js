@@ -1,102 +1,14 @@
 'use strict';
 var CryptoJS = require("crypto-js");
 var express = require("express");
-var bodyParser = require('body-parser');
+var bodyParser = require("body-parser");
 var WebSocket = require("ws");
+var Blockchain = require("./blockchain.js")
 
 var http_port = process.env.HTTP_PORT || 3001;
 var p2p_port = process.env.P2P_PORT || 6001;
 var initialPeers = process.env.PEERS ? process.env.PEERS.split(',') : [];
 
-
-// BLOCK
-class Block {
-    constructor(index, previousHash, timestamp, data) {
-        this.index = index;
-        this.previousHash = previousHash.toString();
-        this.timestamp = timestamp;
-        this.data = data;
-        this.hash = this.calculateHash();
-    }
-
-    calculateHash () {
-          return CryptoJS.SHA256(this.index + this.previousHash + this.timestamp + this.data).toString();
-    }
-}
-
-// BLOCKCHAIN
-class Blockchain {
-    constructor() {
-      this.chain = [this.createGenesisBlock()];
-    }
-
-    createGenesisBlock() {
-      return new Block(0, "0", (new Date().getTime() / 1000), 0);
-    }
-
-    generateNextBlock(blockData) {
-        var previousBlock = this.getLatestBlock();
-        var nextIndex = previousBlock.index + 1;
-        var nextTimestamp = new Date().getTime() / 1000;
-        this.addBlock(new Block(nextIndex, previousBlock.hash, nextTimestamp, blockData));
-        return true;
-    };
-
-    addBlock(newBlock) {
-        if (this.isValidNewBlock(newBlock, this.getLatestBlock())) {
-            this.chain.push(newBlock);
-        }
-    };
-
-    isValidNewBlock(newBlock, previousBlock) {
-        if (previousBlock.index + 1 !== newBlock.index) {
-            console.log('invalid index');
-            return false;
-        } else if (previousBlock.hash !== newBlock.previousHash) {
-            console.log('invalid previoushash');
-            return false;
-        } else if (newBlock.calculateHash() !== newBlock.hash) {
-            console.log(typeof (newBlock.hash) + ' ' + typeof newBlock.calculateHash());
-            console.log('invalid hash: ' + newBlock.calculateHash() + ' ' + newBlock.hash);
-            return false;
-        }
-        return true;
-    };
-
-    replaceChain(newChain) {
-        if (newChain.isValidChain() && newChain.length > this.chain.length) {
-            console.log('Received blockchain is valid. Replacing current blockchain with received blockchain');
-            this.chain = newChain;
-            broadcast(responseLatestMsg());
-        } else {
-            console.log('Received blockchain invalid');
-        }
-    };
-
-    isValidChain() {
-        if (JSON.stringify(this.chain[0]) !== JSON.stringify(this.getGenesisBlock())) {
-            return false;
-        }
-        var tempBlocks = [this.chain[0]];
-        for (var i = 1; i < this.chain.length; i++) {
-            if (this.isValidNewBlock(this.chain[i], tempBlocks[i - 1])) {
-                tempBlocks.push(this.chain[i]);
-            } else {
-                return false;
-            }
-        }
-        return true;
-    };
-
-    getLatestBlock() {
-      return this.chain[this.chain.length - 1];
-    }
-
-    getBlockchain() {
-      return this.chain;
-    }
-
-}
 
 var sockets = [];
 var MessageType = {
@@ -107,25 +19,34 @@ var MessageType = {
 
 let BC = new Blockchain();
 
-
+var parsing = (req, res) => {
+  if(!req.body || req.body.length === 0) {
+    console.log('request body not found');
+    return res.sendStatus(400);
+  }
+  res.send(req.body.data);
+  //res.status(200).send();
+}
 var initHttpServer = () => {
     var app = express();
     app.use(bodyParser.json());
 
-    app.get('/blocks', (req, res) => res.send(JSON.stringify(BC.getBlockchain())));
-    app.post('/mineBlock', (req, res) => {
-        BC.generateNextBlock(req.body.data);
-        broadcast(responseLatestMsg());
-        console.log('block added: ' + JSON.stringify(BC.getLatestBlock()));
-        res.send();
-    });
-    app.get('/peers', (req, res) => {
-        res.send(sockets.map(s => s._socket.remoteAddress + ':' + s._socket.remotePort));
-    });
-    app.post('/addPeer', (req, res) => {
-        connectToPeers([req.body.peer]);
-        res.send();
-    });
+    app.post('/', (req, res) => parsing(req, res));
+
+    // app.get('/blocks', (req, res) => res.send(JSON.stringify(BC.getBlockchain())));
+    // app.post('/mineBlock', (req, res) => {
+    //     BC.generateNextBlock(req.body.data);
+    //     broadcast(responseLatestMsg());
+    //     console.log('block added: ' + JSON.stringify(BC.getLatestBlock()));
+    //     res.send();
+    // });
+    // app.get('/peers', (req, res) => {
+    //     res.send(sockets.map(s => s._socket.remoteAddress + ':' + s._socket.remotePort));
+    // });
+    // app.post('/addPeer', (req, res) => {
+    //     connectToPeers([req.body.peer]);
+    //     res.send();
+    // });
     app.listen(http_port, () => console.log('Listening http on port: ' + http_port));
 };
 
