@@ -1,5 +1,5 @@
 'use strict';
-var CryptoJS = require("crypto-js");
+var Sha256 = require('./sha256.js');
 var Block = require("./block.js");
 
 // BLOCKCHAIN
@@ -21,9 +21,9 @@ class Blockchain {
     };
 
     addBlock(newBlock) {
-        if (this.isValidNewBlock(newBlock, this.getLatestBlock())) {
+        // if (this.isValidNewBlock(newBlock, this.getLatestBlock())) {
             this.chain.push(newBlock);
-        }
+        // }
     };
 
     isValidNewBlock(newBlock, previousBlock) {
@@ -41,16 +41,6 @@ class Blockchain {
         return true;
     };
 
-    replaceChain(newChain) {
-        if (newChain.isValidChain() && newChain.length > this.chain.length) {
-            console.log('Received blockchain is valid. Replacing current blockchain with received blockchain');
-            this.chain = newChain;
-            broadcast(responseLatestMsg());
-        } else {
-            console.log('Received blockchain invalid');
-        }
-    };
-
     isValidChain() {
         if (JSON.stringify(this.chain[0]) !== JSON.stringify(this.getGenesisBlock())) {
             return false;
@@ -64,6 +54,16 @@ class Blockchain {
             }
         }
         return true;
+    };
+
+    replaceChain(newChain) {
+        // if (newChain.isValidChain() && newChain.length > this.chain.length) {
+        //     console.log('Received blockchain is valid. Replacing current blockchain with received blockchain');
+            this.chain = newChain;
+            // broadcast(responseLatestMsg());
+        // } else {
+        //     console.log('Received blockchain invalid');
+        // }
     };
 
     getLatestBlock() {

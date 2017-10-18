@@ -1,5 +1,5 @@
 'use strict';
-var CryptoJS = require("crypto-js");
+var Sha256 = require('./sha256.js');
 
 // BLOCK
 class Block {
@@ -12,7 +12,7 @@ class Block {
     }
 
     calculateHash () {
-          return CryptoJS.SHA256(this.index + this.previousHash + this.timestamp + this.data).toString();
+          return Sha256.hash(this.index + this.previousHash + this.timestamp + this.data).toString();
     }
 }
 

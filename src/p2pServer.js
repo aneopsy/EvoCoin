@@ -5,6 +5,12 @@ const WebSocket = require("ws");
 const p2p_port = process.env.P2P_PORT || 6001;
 const sockets = [];
 
+var MessageType = {
+    QUERY_LATEST: 0,
+    QUERY_ALL: 1,
+    RESPONSE_BLOCKCHAIN: 2
+};
+
 const initP2PServer = () => {
     var server = new WebSocket.Server({port: p2p_port});
     server.on('connection', ws => initConnection(ws));

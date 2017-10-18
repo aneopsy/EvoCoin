@@ -4,16 +4,17 @@ var express = require('express');
 var bodyParser = require("body-parser");
 var WebSocket = require("ws");
 var Blockchain = require("./blockchain.js")
-var initP2PServer = require("./p2pServer.js")
 var jayson = require('jayson');
 
 var http_port = process.env.HTTP_PORT || 3001;
 var p2p_port = process.env.P2P_PORT || 6001;
+var json_rpc_port = process.env.JSON_RPC_PORT || 3000;
 var initialPeers = process.env.PEERS ? process.env.PEERS.split(',') : [];
 
 const VERSION = 0;
 
 var sockets = [];
+
 var MessageType = {
     QUERY_LATEST: 0,
     QUERY_ALL: 1,
@@ -45,7 +46,12 @@ var initHttpServer = () => {
 };
 
 
+var initP2PServer = () => {
+    var server = new WebSocket.Server({port: p2p_port});
+    server.on('connection', ws => initConnection(ws));
+    console.log('listening websocket p2p port on: ' + p2p_port);
 
+};
 
 var initConnection = (ws) => {
     sockets.push(ws);
@@ -99,14 +105,14 @@ var handleBlockchainResponse = (message) => {
         console.log('blockchain possibly behind. We got: ' + latestBlockHeld.index + ' Peer got: ' + latestBlockReceived.index);
         if (latestBlockHeld.hash === latestBlockReceived.previousHash) {
             console.log("We can append the received block to our chain");
-            blockchain.push(latestBlockReceived);
+            BC.addBlock(latestBlockReceived);
             broadcast(responseLatestMsg());
         } else if (receivedBlocks.length === 1) {
             console.log("We have to query the chain from our peer");
             broadcast(queryAllMsg());
         } else {
             console.log("Received blockchain is longer than current blockchain");
-            replaceChain(receivedBlocks);
+            BC.replaceChain(receivedBlocks);
         }
     } else {
         console.log('received blockchain is not longer than received blockchain. Do nothing');
@@ -116,7 +122,7 @@ var handleBlockchainResponse = (message) => {
 var queryChainLengthMsg = () => ({'type': MessageType.QUERY_LATEST});
 var queryAllMsg = () => ({'type': MessageType.QUERY_ALL});
 var responseChainMsg = () =>({
-    'type': MessageType.RESPONSE_BLOCKCHAIN, 'data': JSON.stringify(blockchain)
+    'type': MessageType.RESPONSE_BLOCKCHAIN, 'data': JSON.stringify(BC.getBlockchain())
 });
 var responseLatestMsg = () => ({
     'type': MessageType.RESPONSE_BLOCKCHAIN,
@@ -127,9 +133,8 @@ var write = (ws, message) => ws.send(JSON.stringify(message));
 var broadcast = (message) => sockets.forEach(socket => write(socket, message));
 
 connectToPeers(initialPeers);
-const app = express();
-initHttpServer(app, http_port);
-initP2PServer.initP2PServer(p2p_port);
+initHttpServer();
+initP2PServer();
 
 var methods = {
   add: function(args, callback) {
@@ -147,7 +152,8 @@ var methods = {
   sendTransaction: function(args, callback) {
     BC.generateNextBlock(args);
     console.log('block added: ' + JSON.stringify(BC.getLatestBlock()));
-    callback(null, null);
+    broadcast(responseLatestMsg());
+    callback();
   }
 };
 
@@ -156,4 +162,4 @@ var server = jayson.server(methods, {
   params: Array
 });
 
-server.http().listen(3000, () => console.log('Listening JSON-RPC on port: ' + 3000));
+server.http().listen(json_rpc_port, () => console.log('Listening JSON-RPC on port: ' + json_rpc_port));
