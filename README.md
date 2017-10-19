@@ -1,4 +1,4 @@
-# Evocoin
+# EvoCoin
 
 ### Motivation
 Cryptocurrencies and smart-contracts on top of a blockchain aren't the most trivial concepts to understand, things like wallets, addresses, block proof-of-work, transactions and their signatures, make more sense when they are in a broad context. This project is an attempt to provide as concise and simple an implementation of a cryptocurrency as possible.
@@ -55,6 +55,11 @@ Cryptocurrencies and smart-contracts on top of a blockchain aren't the most triv
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
+``` sh
+# Get the project
+$ git clone https://github.com/aneopsy/EvoCoin
+```
+
 ### Prerequisites
 
 * Node.js
@@ -62,9 +67,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Installing
 
-A step by step series of examples that tell you have to get a development env running
-
-First step, install all dependencies, use:
+First of all, install all dependencies, use:
 
 ``` sh
 # Run npm to install all module
@@ -119,7 +122,7 @@ $ docker-compose up
 
 ## Versioning
 
-We use [GitHub](http://https://github.com) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
+We use [GitHub](http://https://github.com) for versioning. For the versions available, see the [tags on this repository](https://github.com/aneopsy/EvoCoin).
 
 ## Authors
 
@@ -127,7 +130,7 @@ We use [GitHub](http://https://github.com) for versioning. For the versions avai
 * **Alexandre BLANCHARD** - *Crypto work* - [--](https://github.com/aneopsy)
 * **Carl DEBRAUWERE** - *Web Interface work* - [--](https://github.com/aneopsy)
 
-See also the list of [contributors](https://github.com/aneopsy/AneoChain/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/aneopsy/EvoCoin/contributors) who participated in this project.
 
 ## License
 
