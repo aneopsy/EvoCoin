@@ -88,6 +88,19 @@ $ node bin/evocoin.js -p 3002 --name 2 --peers http://localhost:3001
 http://localhost:3001/api-docs/
 ```
 
+You can use npm too.
+```sh
+# Run a node
+$ npm start
+> evocoin@0.0.1 start /home/aneopsy/AneoChain
+> node bin/evocoin.js
+
+2017-10-19T19:39:25.618Z - info - 1: Starting node 1
+2017-10-19T19:39:25.621Z - info - 1: Removing transactions that are in the blockchain
+2017-10-19T19:39:25.649Z - info - 1: Listening JsonRpc on port: 3002
+2017-10-19T19:39:25.651Z - info - 1: Listening http on port: 3001, to access the API documentation go to http://localhost:3001/api-docs/
+```
+
 ## Running the tests
 
 Run some units tests
