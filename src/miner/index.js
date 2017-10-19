@@ -14,7 +14,7 @@ class Miner {
     }
 
     mine(address) {
-        let baseBlock = Miner.generateNextBlock(address, this.blockchain.getLastBlock(), this.blockchain.transactions);        
+        let baseBlock = Miner.generateNextBlock(address, this.blockchain.getLastBlock(), this.blockchain.transactions);
         process.execArgv = R.reject((item) => item.includes('debug'), process.execArgv);
 
         /* istanbul ignore next */
@@ -22,13 +22,13 @@ class Miner {
             /*eslint-disable */
             require(input.__dirname + '/../util/consoleWrapper.js')('mine-worker', input.logLevel);
             const Block = require(input.__dirname + '/../blockchain/block');
-            const Miner = require(input.__dirname);             
+            const Miner = require(input.__dirname);
             /*eslint-enable */
 
             done(Miner.proveWorkFor(Block.fromJson(input.jsonBlock), input.difficulty));
         });
 
-        console.info('Mining a new block');        
+        console.info('Mining a new block');
         return thread
             .send({ __dirname: __dirname, logLevel: this.logLevel, jsonBlock: baseBlock, difficulty: this.blockchain.getDifficulty() })
             .promise();
@@ -54,11 +54,11 @@ class Miner {
                     outputs: [
                         {
                             amount: FEE_PER_TRANSACTION * transactions.length, // satoshis format
-                            address: address, // INFO: Usually here is a locking script (to check who and when this transaction output can be used), in this case it's a simple destination address 
+                            address: address, // INFO: Usually here is a locking script (to check who and when this transaction output can be used), in this case it's a simple destination address
                         }
                     ]
                 }
-            });            
+            });
 
             transactions.push(feeTransaction);
         }
@@ -74,11 +74,11 @@ class Miner {
                     outputs: [
                         {
                             amount: MINING_REWARD, // satoshis format
-                            address: address, // INFO: Usually here is a locking script (to check who and when this transaction output can be used), in this case it's a simple destination address 
+                            address: address, // INFO: Usually here is a locking script (to check who and when this transaction output can be used), in this case it's a simple destination address
                         }
                     ]
                 }
-            });            
+            });
 
             transactions.push(rewardTransaction);
         }
