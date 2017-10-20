@@ -1,5 +1,5 @@
 {
-  "name": "nimiq",
+  "name": "evocoin",
   "version": "1.0.0",
   "homepage": "https://nimiq.com/",
   "description": "",
@@ -14,8 +14,8 @@
     "lint": "gulp eslint"
   },
   "author": {
-    "name": "The Nimiq Core Development Team",
-    "url": "https://nimiq.com/"
+    "name": "The EvoCoin Core Development Team",
+    "url": ""
   },
   "license": "Apache-2.0",
   "bugs": {

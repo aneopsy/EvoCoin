@@ -1,138 +1,150 @@
-# Nimiq Blockchain [![Build Status](https://travis-ci.org/nimiq-network/core.svg)](https://travis-ci.org/nimiq-network/core)
+# EvoCoin
 
-**[Nimiq](https://nimiq.com/)** is a frictionless payment protocol for the web.
+### Motivation
+Cryptocurrencies and smart-contracts on top of a blockchain aren't the most trivial concepts to understand, things like wallets, addresses, block proof-of-work, transactions and their signatures, make more sense when they are in a broad context. This project is an attempt to provide as concise and simple an implementation of a cryptocurrency as possible.
 
-For a high-level introduction checkout the [Nimiq White Paper](https://medium.com/nimiq-network/nimiq-a-peer-to-peer-payment-protocol-native-to-the-web-ffd324bb084).
+### What is cryptocurrency
+[From Wikipedia](https://en.wikipedia.org/wiki/Cryptocurrency) : A cryptocurrency (or crypto currency) is a digital asset designed to work as a medium of exchange using cryptography to secure the transactions and to control the creation of additional units of the currency.
 
-## Library Demo
-Check out our betanet [Browser Miner](https://nimiq.com/betanet).
+### Key concepts of Evocoin
+* Components
+    * HTTP Server
+    * JSON-RPC Server
+    * Node
+    * Blockchain
+    * Operator
+    * Miner
+* HTTP API interface to control everything
+* JSON-RPC interface to control everything
+* Synchronization of blockchain and transactions
+* Simple proof-of-work (The difficulty increases every 5 blocks)
+* Addresses creation using a deterministic approach [EdDSA](https://en.wikipedia.org/wiki/EdDSA)
+* Data is persisted to a folder
 
-## Quickstart
-
-1. Clone this repository `git clone https://github.com/nimiq-network/core`.
-2. Run `npm install` or `yarn`
-3. Run `npm run build` or `yarn build`
-4. Open `clients/browser/index.html` in your browser to access the Browser Client.
-
-## Web Developers
-### Most simple Web Application on top of the Nimiq Blockchain
-A good way to get started is to have a look at [the most simple web application on top of the Nimiq Blockchain](https://robinlinus.github.io/nimiq-demo/).
-
-### Installation for Web Developers
-Follow the Quickstart guide or use our CDN:
+#### Components communication
 
 ```
-<script src="https://cdn.nimiq.com/core/nimiq.js"></script>
+              +-----------------+
+              |                 |
+     +--------+ JSON-RPC Server +--------+
+     |        |                 |        |
+     |        +-----------------+        |
+     |         +---------------+         |
+     |         |               |         |
+     +------+--+  HTTP Server  +---------+
+     |      |  |               |         |
+     |      |  +-------+-------+         |
+     |      |          |                 |
++----v----+ |  +-------v------+    +-----v------+
+|         | |  |              |    |            |
+|  Miner  +---->  Blockchain  <----+  Operator  |
+|         | |  |              |    |            |
++---------+ |  +-------^------+    +------------+
+            |          |
+            |     +----+---+
+            |     |        |
+            +----->  Node  |
+                  |        |
+                  +--------+
+```
+#### More information
+* [Protocol](PROTOCOL.md) How to use the API.
+* [Blockchain](BLOCKCHAIN.md) How our Blockchain run.
+
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+
+``` sh
+# Get the project
+$ git clone https://github.com/aneopsy/EvoCoin
 ```
 
+### Prerequisites
 
-### Run Client
+* Node.js
+* npm
 
-#### Run Browser Client
-Open `clients/browser/index.html` in your browser.
+### Installing
 
-#### Run NodeJs client
+First of all, install all dependencies, use:
 
-To run a NodeJs Client you will need a **publicly routable IP**, **Domain** and **SSL Certificate** (get a free one at [letsencrypt.org](https://letsencrypt.org/)). Start the client by running `clients/nodejs/index.js`.
-
-```bash
-cd clients/nodejs/
-node index.js --host <hostname> --port <port> --key <privkey> --cert <certificate>
+``` sh
+# Run npm to install all module
+$ npm install
 ```
 
-| Argument        | Description           |
-| ------------- |:-------------:|
-| **_host_** | Hostname of the NodeJs client. |
-| **_port_** | Port used to communicate with the peers. |  
-| **_key_** | Private key for the client      |
-| **_cert_** | SSL certificate of your Domain.       |
-| **_wallet-seed_** | Your wallet seed (optional)        |
+### Quick start
 
+```sh
+# Run a node
+$ node bin/evocoin.js
 
-### Build your own Browser client
-Just include `<script src="dist/nimiq.js"></script>` in your project.
+# Run two nodes
+$ node bin/evocoin.js -p 3001 --name 1
+$ node bin/evocoin.js -p 3002 --name 2 --peers http://localhost:3001
 
-### API
-Visit the [API Documentation](dist/API_DOCUMENTATION.md).
-
-
-## Core Developers
-Developers are free to choose between npm and yarn for managing the dependencies.
-### Installation for Core Developers (using npm)
-- NodeJs latest version (> 7.9.0)
-- Dependencies: `npm install`
-- NodeJs dependencies:
-
-	```bash
-	cd src/main/platform/nodejs/
-	npm install
-	cd clients/nodejs/
-	npm install
-	```
-
-### Installation for Core Developers (using yarn)
-- NodeJs latest version (> 7.9.0)
-- Dependencies: `yarn`
-- NodeJs dependencies:
-
-	```bash
-	cd src/main/platform/nodejs/
-	yarn
-	cd clients/nodejs/
-	yarn
-	```
-
-### Test and Build
-
-#### Run Testsuite
-- `npm test` or `yarn test` runs browser and NodeJS tests.
-- `npm run test-browser` or `yarn test-browser` runs the testsuite in your browser only.
-- `npm run test-node` or `yarn test-node` runs the testsuite in NodeJS only.
-
-#### Run ESLint
-`npm run lint` or `yarn lint` runs the ESLint javascript linter.
-
-#### Build
-Executing `npm run build` or `yarn build` concatenates all sources into `dist/{web,web-babel,web-crypto,node}.js`
-
-## Docker
-
-A Dockerfile is provided which allows for creating your own backbone image using the following arguments.
-
-| Argument  | Description |
-| ------------- | ------------- |
-| BRANCH  | Defaults to *master* but can be any available git branch  |
-| PORT  | Defaults to TCP port *8080* |
-| DOMAIN  | Domain to be used for hosting the backbone node  |
-| KEY  | Path to an existing certificate key for the DOMAIN  |
-| CRT  | Path to an existing signed certificate for the DOMAIN  |
-| WALLET_SEED  | Pre-existing wallet private key  |
-
-### Building the Docker image using the above arguments
-```
-docker build \
-  --build-arg DOMAIN=<DOMAIN> \
-  --build-arg BRANCH=<BRANCH> \
-  --build-arg WALLET_SEED=<WALLET_SEED> \
-  --build-arg KEY=<KEY> \
-  --build-arg CRT=<CRT> \
-  --build-arg PORT=<PORT> \
-  -t nimiq .
+# Access the swagger API
+http://localhost:3001/api-docs/
 ```
 
-### Running an instance of the image
+You can use npm too.
+```sh
+# Run a node
+$ npm start
+> evocoin@0.0.1 start /home/aneopsy/AneoChain
+> node bin/evocoin.js
 
-`docker run -d -p 8080:8080 -v /etc/letsencrypt/:/etc/letsencrypt/ --name "nimiq" nimiq`
+2017-10-19T19:39:25.618Z - info - 1: Starting node 1
+2017-10-19T19:39:25.621Z - info - 1: Removing transactions that are in the blockchain
+2017-10-19T19:39:25.649Z - info - 1: Listening JsonRpc on port: 3002
+2017-10-19T19:39:25.651Z - info - 1: Listening http on port: 3001, to access the API documentation go to http://localhost:3001/api-docs/
+```
 
-Note that you can override any of the arguments which were baked into the image at runtime with exception to the *BRANCH*. The -v flag here allows for mapping a local system path into the container for the purpose of using the existing *DOMAIN* certificates.
+## Running the tests
 
-### Check status
-`docker logs -f <instance_id_or_name>`
+Run some units tests
+```
+$ npm test
+```
+## Deployment
+#### Docker
 
-## Contribute
+```sh
+# Build the image
+$ docker build . -t evocoin
 
-If you'd like to contribute to development Nimiq please follow our [Code of Conduct](/.github/CONDUCT.md) and [Contributing Guidelines](/.github/CONTRIBUTING.md).
+# Run naivecoin in a docker
+$ ./dockerExec.sh
+
+# Run naivecoin in a docker using port 3002
+$ ./dockerExec.sh -p 3002
+
+# Run naivecoin in a docker options
+$ ./dockerExec.sh -h
+Usage: ./dockerExec.sh -a HOST -p PORT -l LOG_LEVEL -e PEERS -n NAME
+
+# Run docker-compose with 3 nodes
+$ docker-compose up
+```
+
+## Built With
+
+* [Node.js](https://nodejs.org) - The JavaScript runtime
+* [AngularJS](https://angularjs.org/)) - The web framework used
+
+## Versioning
+
+We use [GitHub](http://https://github.com) for versioning. For the versions available, see the [tags on this repository](https://github.com/aneopsy/EvoCoin).
+
+## Authors
+
+* **Paul THEIS** - *Initial work* - [AneoPsy](https://github.com/aneopsy)
+* **Alexandre BLANCHARD** - *Crypto work* - [--](https://github.com/aneopsy)
+* **Carl DEBRAUWERE** - *Web Interface work* - [--](https://github.com/aneopsy)
+
+See also the list of [contributors](https://github.com/aneopsy/EvoCoin/contributors) who participated in this project.
 
 ## License
 
-This project is under the [Apache License 2.0](./LICENSE.md).
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
