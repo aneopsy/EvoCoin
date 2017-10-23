@@ -63,7 +63,7 @@ class Consensus extends Observable {
                 bestAgents.push(agent);
             }
         }
-        // Choose a random peer from those.
+        // Choose a random peer from those TODO: Change it.
         let bestAgent = null;
         if (bestAgents.length > 0) {
             bestAgent = bestAgents[Math.floor(Math.random() * bestAgents.length)];
