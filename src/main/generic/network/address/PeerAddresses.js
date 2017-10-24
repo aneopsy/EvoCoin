@@ -601,7 +601,7 @@ PeerAddresses.MAX_TIMESTAMP_DRIFT = 1000 * 60 * 10; // 10 minutes
 PeerAddresses.HOUSEKEEPING_INTERVAL = 1000 * 60 * 3; // 3 minutes
 //Pairing addresses
 PeerAddresses.SEED_PEERS = [
-    WsPeerAddress.seed('alpacash.com', 8080),
+    //WsPeerAddress.seed('alpacash.com', 8080),
     // WsPeerAddress.seed('alpacash.com', 8080),
     // WsPeerAddress.seed('nimiq1.styp-rekowsky.de', 8080),
     // WsPeerAddress.seed('nimiq2.styp-rekowsky.de', 8080),
