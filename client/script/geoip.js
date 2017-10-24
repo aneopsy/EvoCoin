@@ -41,6 +41,7 @@ class GeoIP {
         }
 
         var xmlhttp = new XMLHttpRequest();
+        xmlhttp.withCredentials = false;
         var url = 'https://geoip.nimiq-network.com:8443/v1/locate' + (host && host.length > 0 ? '?host=' + host : '');
 
         xmlhttp.onreadystatechange = function() {
