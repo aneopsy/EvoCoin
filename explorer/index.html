@@ -2,684 +2,18 @@
 <html>
 <head>
     <meta charset=utf-8 />
-    <title>NIMIQ.WATCH</title>
+    <title>EvoExplorer</title>
 
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
 
     <link rel="stylesheet" href="vendor/source-sans-pro/source-sans-pro.css">
-    <link rel="stylesheet" href="vendor/fira/fira.css">
-
-    <style>
-        body {
-            background: snow;
-            color: #042146;
-            font-family: "Source Sans Pro", sans-serif;
-            font-size: 18px;
-            letter-spacing: 0.02em;
-            padding: 0;
-            margin: 0;
-        }
-
-        a {
-            color: #042146;
-            text-decoration: none;
-            border-bottom: 1px dotted;
-            position: relative;
-        }
-
-        a:hover,
-        a:focus {
-            border-bottom-style: solid;
-        }
-
-        header {
-            background: #042146;
-            color: white;
-            padding: 0.5em 0.8em;
-            overflow: visible;
-            position: fixed;
-            top: 0;
-            left: 0;
-            box-sizing: border-box;
-            width: 100%;
-            box-shadow: 0 0 10px 0 black;
-            z-index: 1000;
-        }
-
-        header h1 {
-            margin: 0.1em 0;
-            margin-right: 1em;
-            float: left;
-            font-size: 1.5em;
-            letter-spacing: 0.05em;
-        }
-
-        header h1 a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        header .nimiq-logo {
-            position: relative;
-            top: 0.25em;
-        }
-
-        header > a,
-        header .submenu-container,
-        header .submenu-container > a {
-            line-height: 2.7em;
-            color: white;
-            float: left;
-            border: none;
-            padding: 0 0.75em;
-            margin-right: 0.5em;
-            position: relative;
-            display: block;
-            cursor: pointer;
-            border-radius: 3px;
-        }
-
-        header a,
-        header a:hover,
-        header a:focus {
-            border: none;
-        }
-
-        header > a:hover,
-        header > a:focus,
-        header > a:target,
-        header .submenu-container > a:focus,
-        header .submenu-container > a:target {
-            background: white;
-            color: #042146;
-        }
-
-        header .submenu-container {
-            padding: 0;
-            position: relative;
-        }
-
-        header .submenu-container > a {
-            margin: 0;
-        }
-
-        header .submenu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: -1px;
-            z-index: 1500;
-            border-radius: 3px;
-        }
-
-        header .submenu-container:hover > a {
-            background: white;
-            color: #042146;
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-        }
-
-        header .submenu-container:hover .submenu {
-            display: block;
-        }
-
-        header .submenu a {
-            background: white;
-            display: block;
-            padding: 0 1em;
-            white-space: nowrap;
-            border: 1px solid;
-            border-top: none;
-            line-height: 2.7em;
-            padding: 0 0.75em;
-        }
-
-        header .submenu a:first-child {
-            border-top: 1px solid;
-            border-top-right-radius: 3px;
-        }
-
-        header .submenu a:last-child {
-            border-bottom-left-radius: 3px;
-            border-bottom-right-radius: 3px;
-        }
-
-        header .submenu a:hover {
-            background: #F0F0F0;
-        }
-
-        #monitor {
-            float: right;
-            line-height: 2.7em;
-        }
-
-        .not-connected {
-            color: red;
-        }
-
-        .synchronizing {
-            color: gold;
-        }
-
-        .consensus-established {
-            color: limegreen;
-        }
-
-        img.nimiq_currency {
-            height: 12px;
-        }
-
-        #searchbox {
-            max-width: 800px;
-            margin: 2em auto;
-            padding: 0 20px;
-            padding-top: 3.6em;
-        }
-
-        #searchbox h1 {
-            font-weight: normal;
-            text-align: center;
-        }
-
-        #search-form input {
-            font-size: inherit;
-            font-family: "Fira Mono", monospace;
-            padding: 1em;
-            border-radius: 3px;
-            border: 1px solid #042146;
-        }
-
-        #search-input {
-            width: 83%;
-            text-transform: uppercase;
-        }
-
-        #search-submit {
-            width: 10%;
-            text-transform: uppercase;
-            cursor: pointer;
-            font-weight: bold;
-            min-width: 60px;
-            background: #DDDDDD;
-        }
-        #search-submit:hover {
-            background: #CCCCCC;
-        }
-        #search-submit:disabled {
-            cursor: progress;
-            background: #DDDDDD;
-        }
-
-        #search-form .detection {
-            font-size: 16px;
-        }
-
-        #hash-format {
-            font-weight: bold;
-            margin-left: 0.2em;
-        }
-
-        hash {
-            font-family: "Fira Mono", monospace;
-            font-size: 16px;
-            letter-spacing: -0.04em;
-            text-transform: uppercase;
-        }
-
-        #infobox {
-            width: 900px;
-            margin: 4em auto 2em auto;
-            padding: 0 20px;
-        }
-
-        #infobox h2,
-        #infobox h3 {
-            font-weight: normal;
-            text-transform: uppercase;
-            margin-bottom: 0.2em;
-        }
-
-        #infobox h2 {
-            margin-bottom: 0.4em;
-        }
-
-        #infobox h3 {
-            font-weight: bold;
-            font-size: 16px;
-            color: #999;
-        }
-
-        #infobox img {
-            height: 12px;
-        }
-
-        .accountinfo-wrapper {
-            width: 410px;
-            margin: auto;
-        }
-
-        .about-wrapper {
-            width: 600px;
-            margin: auto;
-            padding: 1em;
-            background: white;
-            border: 1px solid #D9DEE4;
-            border-radius: 5px;
-        }
-
-        .about-wrapper h2 {
-            margin-top: 0;
-        }
-
-        .about-wrapper p:last-child {
-            margin-bottom: 0;
-        }
-
-        .blockinfo-header {
-            overflow: auto;
-            border: 1px solid #D9DEE4;
-            border-top-left-radius: 5px;
-            border-top-right-radius: 5px;
-            background: #F0F0F0;
-        }
-
-        .accountinfo-wrapper .blockinfo-header {
-            padding: 2px 1em 1em 1em;
-        }
-
-        .blockinfo-header .height {
-            float: left;
-            width: 200px;
-            padding: 0 1em 1em 1em;
-            overflow: auto;
-        }
-
-        .blockinfo-header .height span {
-            font-size: 40px;
-            float: left;
-        }
-
-        .blockinfo-header .height div {
-            float: left;
-            margin-left: 0.3em;
-        }
-
-        .blockinfo-header .height a {
-            display: block;
-            border: none;
-            opacity: 0.3;
-        }
-
-        .blockinfo-header .height a:hover,
-        .blockinfo-header .height a:focus {
-            opacity: 1;
-            /*color: #87cefa;  lightskyblue */
-        }
-
-        .blockinfo-header .height a:first-child {
-            margin-top: 6px;
-            margin-bottom: -6px;
-        }
-
-        .blockinfo-header .hash {
-            float: left;
-        }
-
-        .blockinfo-body {
-            overflow: auto;
-            border-left: 1px solid #D9DEE4;
-            border-right: 1px solid #D9DEE4;
-            background: white;
-        }
-
-        .accountinfo-wrapper .blockinfo-body {
-            padding: 0.25em 1em;
-            border-bottom: 1px solid #D9DEE4;
-            border-bottom-left-radius: 5px;
-            border-bottom-right-radius: 5px;
-        }
-
-        .blockinfo-body-left,
-        .blockinfo-body-right {
-            float: left;
-            width: 50%;
-            box-sizing: border-box;
-            padding: 0.25em 1em;
-        }
-
-        .blockinfo-body-left {
-            border-right: 1px solid #D9DEE4;
-        }
-
-        .blockinfo-body-row {
-            margin: 0.75em 0;
-            overflow: auto;
-        }
-
-        .blockinfo-body-row label,
-        .blockinfo-miner label {
-            float: left;
-            color: #888;
-        }
-
-        .blockinfo-body-row span,
-        .blockinfo-miner hash {
-            float: right;
-        }
-
-        .blockinfo-miner {
-            clear: both;
-            border-top: 1px solid #D9DEE4;
-            padding: 1em;
-            overflow: auto;
-        }
-
-        .blockinfo-transactions {
-            border: 1px solid #D9DEE4;
-            border-bottom-left-radius: 5px;
-            border-bottom-right-radius: 5px;
-            padding: 1em;
-            background: white;
-        }
-
-        .blockinfo-transaction-header-row {
-            display: table-row;
-        }
-
-        .blockinfo-transaction-header-row h3 {
-            display: table-cell;
-        }
-
-        .blockinfo-transaction-header-row h3:last-child {
-            text-align: right;
-        }
-
-        .blockinfo-transaction-row {
-            display: table-row;
-        }
-
-        .blockinfo-transaction-row > * {
-            display: table-cell;
-            padding: 0.75em 1em 0 0;
-            white-space: nowrap;
-        }
-
-        .blockinfo-transaction-row:nth-child(2) > * {
-            padding-top: 0.5em;
-        }
-
-        .blockinfo-transaction-row > span {
-            padding-right: 0;
-            width: 100%;
-            text-align: right;
-        }
-
-        .no-transactions {
-            text-align: center;
-            text-transform: uppercase;
-            color: #AAA;
-        }
-
-        #infobox .charts-wrapper {
-            background: white;
-            width: 400px;
-            margin: auto;
-            border: 1px solid #D9DEE4;
-            border-radius: 5px;
-            padding: 1em;
-        }
-
-        #infobox .charts-wrapper h2 {
-            margin-top: 0;
-        }
-
-        #infobox .charts-wrapper p {
-            margin-bottom: 0;
-        }
-
-        #infobox .charts-wrapper a {
-            background: #042146;
-            color: white;
-            padding: 0 0.75em;
-            line-height: 2.5em;
-            display: inline-block;
-            border-radius: 3px;
-            border: 1px solid #042146;
-            margin-bottom: 4px;
-        }
-
-        #infobox .charts-wrapper a:hover,
-        #infobox .charts-wrapper a:focus {
-            color: #042146;
-            background: white;
-        }
-
-        .hashing-distribution-chart-wrapper {
-            float: left;
-            width: 400px;
-            margin: 25px;
-        }
-
-        .hashing-distribution-chart-wrapper canvas {
-            height: 400px !important;
-        }
-
-        #infobox .axis-type-switch {
-            float: right;
-            font-size: 16px;
-            width: 250px;
-            margin-top: 1em;
-        }
-
-        #infobox .axis-type-switch label {
-            cursor: pointer;
-        }
-
-        #infobox .axis-type-switch input:disabled + span {
-            cursor: progress;
-            opacity: 0.4;
-        }
-
-        #infobox .axis-type-switch label span span {
-            font-weight: normal;
-        }
-
-        #infobox canvas {
-            width: 100%;
-            height: 450px;
-            box-sizing: border-box;
-            padding: 1em;
-            background: white;
-            border: 1px solid #D9DEE4;
-            border-radius: 5px;
-            clear: both;
-        }
-
-        #infobox small {
-            display: block;
-            margin-top: -1em;
-            margin-bottom: 1em;
-            color: #888;
-        }
-
-        #infobox .chart-valid-info {
-            text-align: right;
-            font-size: smaller;
-            color: #888;
-            font-style: italic;
-        }
-
-        #blocklist-wrapper {
-            max-width: 950px;
-            margin: 4em auto 2em auto;
-            padding: 0 20px;
-        }
-
-        #blocklist-wrapper h2 {
-            font-weight: normal;
-            text-transform: uppercase;
-            margin-bottom: 0.2em;
-        }
-
-        #blocklist {
-            display: table;
-            border-spacing: 0 8px;
-            width: 100%;
-        }
-
-        .blocklist-block {
-            display: table-row;
-            background: #D6D6D6;
-            background: #F0F0F0;
-        }
-
-        a.blocklist-cell::after {
-            position: absolute;
-            left: 20%;
-            bottom: 10px;
-            width: 60%;
-            content: "";
-            border-bottom: 1px dotted;
-        }
-
-        a.blocklist-cell:hover::after,
-        a.blocklist-cell:focus::after {
-            border-bottom-style: solid;
-        }
-
-        .blocklist-cell {
-            display: table-cell;
-            padding: 0.6em 1em;
-            white-space: nowrap;
-            border-top: 1px solid #D9DEE4;
-            border-bottom: 1px solid #D9DEE4;
-        }
-        .blocklist-cell:first-child {
-            border-top-left-radius: 3px;
-            border-bottom-left-radius: 3px;
-            border-left: 1px solid #D9DEE4;
-        }
-        .blocklist-cell:last-child {
-            border-top-right-radius: 3px;
-            border-bottom-right-radius: 3px;
-            border-right: 1px solid #D9DEE4;
-        }
-
-        .blocklist-loader {
-            width: 34px;
-            height: 30px;
-
-            margin: auto;
-            animation: sk-rotateplane 1.2s infinite ease-in-out;
-        }
-
-        .blocklist-loader.over-canvas {
-            position: relative;
-            top: -260px;
-        }
-
-        .blocklist-loader-text {
-            text-align: center;
-            margin-bottom: 0;
-        }
-
-        @keyframes sk-rotateplane {
-            0%   { transform: perspective(120px) rotateX(0deg) rotateY(0deg); }
-            50%  { transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg); }
-            100% { transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg); }
-        }
-
-        .ellipsis {
-            text-overflow: ellipsis;
-            overflow: hidden;
-            width: 100%;
-            max-width: 1px; /* enables the correct overflow behaviour */
-        }
-
-        footer {
-            text-align: center;
-            font-size: 14px;
-            color: #AAA;
-            padding: 1em;
-        }
-        footer a {
-            color: #888;
-        }
-    </style>
+    <link rel="stylesheet" href="style/fira.css">
+    <link rel="stylesheet" href="style/style.css">
 
     <script type="text/javascript" src="../dist/nimiq.js"></script>
-    <script>
-        function _onConsensusEstablished() {
-            $syncPercentage.style.display = "none";
-            $status.innerText = 'connected';
-            $status.classList.add('consensus-established');
-            document.getElementById('search-submit').removeAttribute('disabled');
-            document.getElementById('search-submit').removeAttribute('title');
-
-            _buildListOfLatestBlocks();
-
-            if(!window.onhashchange) {
-                window.onhashchange = _onHashChange;
-                _onHashChange();
-            }
-        }
-
-        function _onConsensusLost() {
-            console.error('Consensus lost');
-            $status.innerText = 'consensus lost';
-            $status.classList.remove('consensus-established', 'synchronizing');
-        }
-
-        function _onHeadChanged() {
-            var height = $.blockchain.height;
-            $height.innerText = '#' + height;
-            if(syncStartHeight !== 0 && syncTargetHeight !== 0)
-                $syncPercentage.innerText = " (" + Math.floor((height - syncStartHeight) / (syncTargetHeight - syncStartHeight) * 100) + "%)";
-
-            if(blocklistBuilt) {
-                _getBlockInfo($.blockchain.headHash, function(blockInfo) {
-                    _addBlockToListOfLatestBlocks(blockInfo);
-                });
-            }
-        }
-
-        function _onPeersChanged() {
-            document.getElementById('monitor').setAttribute('title', 'Connected to ' + $.network.peerCount + ' peers');
-        }
-
-        Nimiq.init(function($) {
-            $status.innerText = 'synchronizing';
-            $status.classList.add('synchronizing');
-
-            window.$ = $;
-
-            $.consensus.on('syncing', function(targetHeight) {
-                syncTargetHeight = targetHeight;
-                syncStartHeight = $.blockchain.head.height;
-            });
-            $.consensus.on('established', _onConsensusEstablished);
-            $.consensus.on('lost', _onConsensusLost);
-
-            $.blockchain.on('head-changed', _onHeadChanged);
-            _onHeadChanged();
-
-            $.network.on('peers-changed', _onPeersChanged);
-
-            $.network.connect();
-        }, function(error) {
-            console.error(error);
-            alert(error);
-        });
-
-        // Dummy object to prevent JS errors
-        window.$ = {
-            consensus: {
-                established: false
-            }
-        };
-    </script>
     <script src="assets/script.min.js"></script>
+    <script src="assets/evo.js"></script>
 </head>
 <body>
     <header>
@@ -688,7 +22,7 @@
                 <span class="nimiq-logo">
                     <svg fill="#F6AE2D" xmlns="http://www.w3.org/2000/svg" width="34" height="30"><path d="M25.2 1H8.8l-8 14 8 14h16.4l8-14-8-14zm-6.7 22V26H16v-2.6c-1.5 0-3.3-.8-4.5-2l1.7-2.4c1.3 1 2.4 1.5 3.6 1.5 1.4 0 2-.6 2-1.7 0-2.6-6.7-2.6-6.7-7 0-2.6 1.6-4.3 4-4.8V4.2h2.5v2.6c1.6.2 2.8 1 3.8 2l-2 2.2c-.8-1-1.6-1.3-2.7-1.3-1.2 0-2 .5-2 1.6.2 2.4 7 2.2 7 7 0 2.4-1.5 4.3-4 4.8z"></path></svg>
                 </span>
-                NIMIQ.WATCH
+                EvoExplorer
             </a>
         </h1>
         <a href="#search" onclick="_linkClicked(this, true);" id="search">Search</a>
@@ -737,8 +71,8 @@
     </div>
 
     <footer>
-        This web application is built on top of the <a target="_blank" href="https://nimiq.com">Nimiq Blockchain</a>.
-        <a target="_blank" href="https://github.com/sisou/nimiq-watch">View Source Code on Github.</a>
+        This web application is built on top of the <a target="_blank" href="https://aneopsy.xyz">Evo Blockchain</a>.
+        <a target="_blank" href="https://github.com/aneopsy/EvoCoin">View Source Code on Github.</a>
     </footer>
 
     <script type="text/x-tmpl" id="template-block-info">
@@ -765,7 +99,7 @@
                 </div>
                 <div class="blockinfo-body-row">
                     <label>Transaction Value </label>
-                    <span><img src="icons/nimiq_blue.svg"> {%=_formatBalance(Nimiq.Policy.satoshisToCoins(o.transactionValue))%}</span>
+                    <span><img src="icons/evo_blue.svg"> {%=_formatBalance(Nimiq.Policy.satoshisToCoins(o.transactionValue))%}</span>
                 </div>
                 <div class="blockinfo-body-row">
                     <label>Difficulty </label>
@@ -806,7 +140,7 @@
                     <div class="blockinfo-transaction-row">
                         <hash id="{% var elementId = 'sender-address-' + i; _getAndWriteSenderAddressHash(o.transactions[i], elementId); print(elementId); %}"></hash>
                         <hash><a href="#{%=o.transactions[i].recipientAddr.toHex()%}" onclick="_linkClicked(this);">{%=o.transactions[i].recipientAddr.toHex()%}</a></hash>
-                        <span><img src="icons/nimiq_blue.svg"> {%=_formatBalance(Nimiq.Policy.satoshisToCoins(o.transactions[i].value))%}</span>
+                        <span><img src="icons/evo_blue.svg"> {%=_formatBalance(Nimiq.Policy.satoshisToCoins(o.transactions[i].value))%}</span>
                     </div>
                 {% } %}
             {% } else { %}
@@ -827,7 +161,7 @@
             <div class="blockinfo-body">
                 <div class="blockinfo-body-row">
                     <label>Balance </label>
-                    <span><img src="icons/nimiq_blue.svg"> {%=_formatBalance(Nimiq.Policy.satoshisToCoins(o.balance))%}</span>
+                    <span><img src="icons/evo_blue.svg"> {%=_formatBalance(Nimiq.Policy.satoshisToCoins(o.balance))%}</span>
                 </div>
                 <div class="blockinfo-body-row">
                     <label>Nonce </label>
@@ -859,19 +193,19 @@
         <div class="about-wrapper">
             <h2>What is this?</h2>
             <p>
-                This website is a blockchain explorer for the new <a href="https://nimiq.com" target="_blank">Nimiq blockchain project</a>.
+                This website is a blockchain explorer for the new <a href="https://aneopsy.xyz" target="_blank">Evo blockchain project</a>.
             </p>
             <p>
-                Because the Nimiq blockchain lives in your browser, this website works without a server. All necessary information is
+                Because the Evo blockchain lives in your browser, this website works without a server. All necessary information is
                 present in the blockchain, loaded in this browser.
             </p>
             <p>
                 The source code for this website is open source and available at
-                <a href="https://github.com/sisou/nimiq-watch" target="_blank">https://github.com/sisou/nimiq-watch</a>.
+                <a href="https://github.com/aneopsy/EvoCoin" target="_blank">https://github.com/aneopsy/EvoCoin</a>.
             </p>
             <p>
-                To learn more about the Nimiq blockchain, visit the
-                <a href="https://nimiq.com"                            target="_blank">homepage</a>,
+                To learn more about the Evo blockchain, visit the
+                <a href="https://aneopsy.xyz"                            target="_blank">homepage</a>,
                 check out @nimiqnetwork on
                 <a href="https://twitter.com/nimiqnetwork"             target="_blank">Twitter</a> or
                 <a href="https://medium.com/nimiq-network"             target="_blank">Medium</a> and join the

@@ -1,6 +1,6 @@
 html,
 body {
-    background-color: #042146;
+    background-color: #060b19;
     overflow: hidden;
     color: rgba(255, 255, 255, 0.88);
     text-align: center;
@@ -425,7 +425,7 @@ header {
 }
 
 #miningAnimation,
-#nimiqCoinIcon {
+#evoCoinIcon {
     height: 23px;
 }
 

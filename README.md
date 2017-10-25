@@ -8,30 +8,32 @@ Cryptocurrencies and smart-contracts on top of a blockchain aren't the most triv
 
 ### Key concepts of Evocoin
 * Components
-    * HTTP Server
-    * JSON-RPC Server
-    * Node
-    * Blockchain
-    * Operator
-    * Miner
-* HTTP API interface to control everything
-* JSON-RPC interface to control everything
+    * Web Client
+    * Core
+      * Network
+      * Consensus
+      * Accounts
+      * Blockchain
+      * Mempool
+      * Wallet
+      * Miner
+* Js API interface to control everything
 * Synchronization of blockchain and transactions
-* Simple proof-of-work (The difficulty increases every 5 blocks)
-* Addresses creation using a deterministic approach [EdDSA](https://en.wikipedia.org/wiki/EdDSA)
-* Data is persisted to a folder
+* Proof-Of-Work
+* Data is persisted to a database
 
 #### Components communication
 
 ```
               +-----------------+
               |                 |
-     +--------+ JSON-RPC Server +--------+
-     |        |                 |        |
-     |        +-----------------+        |
-     |         +---------------+         |
-     |         |               |         |
-     +------+--+  HTTP Server  +---------+
+              |   Web Client    |
+              |                 |
+              +--------+--------+
+                       |
+               +-------+-------+
+               |               |
+     +------+--+      API      +---------+
      |      |  |               |         |
      |      |  +-------+-------+         |
      |      |          |                 |
@@ -48,8 +50,12 @@ Cryptocurrencies and smart-contracts on top of a blockchain aren't the most triv
                   +--------+
 ```
 #### More information
-* [Protocol](PROTOCOL.md) How to use the API.
+* [API](API.md) How to use the API.
 * [Blockchain](BLOCKCHAIN.md) How our Blockchain run.
+
+### EvoCoin Demo
+
+Check out our [Evo TestNet](http://aneopsy.xyz/client/index.html).
 
 ## Getting Started
 
@@ -59,46 +65,20 @@ These instructions will get you a copy of the project up and running on your loc
 # Get the project
 $ git clone https://github.com/aneopsy/EvoCoin
 ```
-
 ### Prerequisites
 
 * Node.js
 * npm
 
-### Installing
-
-First of all, install all dependencies, use:
-
-``` sh
-# Run npm to install all module
-$ npm install
-```
-
 ### Quick start
 
 ```sh
-# Run a node
-$ node bin/evocoin.js
-
-# Run two nodes
-$ node bin/evocoin.js -p 3001 --name 1
-$ node bin/evocoin.js -p 3002 --name 2 --peers http://localhost:3001
-
-# Access the swagger API
-http://localhost:3001/api-docs/
-```
-
-You can use npm too.
-```sh
-# Run a node
-$ npm start
-> evocoin@0.0.1 start /home/aneopsy/AneoChain
-> node bin/evocoin.js
-
-2017-10-19T19:39:25.618Z - info - 1: Starting node 1
-2017-10-19T19:39:25.621Z - info - 1: Removing transactions that are in the blockchain
-2017-10-19T19:39:25.649Z - info - 1: Listening JsonRpc on port: 3002
-2017-10-19T19:39:25.651Z - info - 1: Listening http on port: 3001, to access the API documentation go to http://localhost:3001/api-docs/
+#Run npm install
+$ npm install
+#Run npm run build
+$ npm run build
+#Open client/index.html in your browser to access the Browser Client.
+$ chrome client/index.html
 ```
 
 ## Running the tests
@@ -108,30 +88,42 @@ Run some units tests
 $ npm test
 ```
 ## Deployment
-#### Docker
+## Docker
 
-```sh
-# Build the image
-$ docker build . -t evocoin
 
-# Run naivecoin in a docker
-$ ./dockerExec.sh
+A Dockerfile is provided which allows for creating your own backbone image using the following arguments.
 
-# Run naivecoin in a docker using port 3002
-$ ./dockerExec.sh -p 3002
+| Argument  | Description |
+| ------------- | ------------- |
+| BRANCH  | Defaults to *master* but can be any available git branch  |
+| PORT  | Defaults to TCP port *8080* |
+| DOMAIN  | Domain to be used for hosting the backbone node  |
+| KEY  | Path to an existing certificate key for the DOMAIN  |
+| CRT  | Path to an existing signed certificate for the DOMAIN  |
+| WALLET_SEED  | Pre-existing wallet private key  |
 
-# Run naivecoin in a docker options
-$ ./dockerExec.sh -h
-Usage: ./dockerExec.sh -a HOST -p PORT -l LOG_LEVEL -e PEERS -n NAME
-
-# Run docker-compose with 3 nodes
-$ docker-compose up
+#### Building the Docker image using the above arguments
 ```
+docker build \
+  --build-arg DOMAIN=<DOMAIN> \
+  --build-arg BRANCH=<BRANCH> \
+  --build-arg WALLET_SEED=<WALLET_SEED> \
+  --build-arg KEY=<KEY> \
+  --build-arg CRT=<CRT> \
+  --build-arg PORT=<PORT> \
+  -t evo .
+```
+
+#### Running an instance of the image
+
+`docker run -d -p 8080:8080 -v /etc/letsencrypt/:/etc/letsencrypt/ --name "evo" evo`
+
+Note that you can override any of the arguments which were baked into the image at runtime with exception to the *BRANCH*. The -v flag here allows for mapping a local system path into the container for the purpose of using the existing *DOMAIN* certificates.
 
 ## Built With
 
 * [Node.js](https://nodejs.org) - The JavaScript runtime
-* [AngularJS](https://angularjs.org/)) - The web framework used
+* [AngularJS](https://angularjs.org/) - The web framework used
 
 ## Versioning
 
