@@ -453,12 +453,12 @@ header {
     color: white;
 }
 
-#mining-on-block {
+#mining-on-block, #connected-to {
     position: relative;
     padding: 8px;
 }
 
-#mining-on-block .info-icon {
+#mining-on-block .info-icon, #connected-to .info-icon {
     opacity: .6;
     position: relative;
     top: 2px;
@@ -711,7 +711,7 @@ input:-moz-placeholder {
     margin-bottom: 8px;
 }
 
-#mining-on-block:after{
+#mining-on-block:after, #connected-to:after{
     content: "";
     position: absolute;
     bottom: -24px;
@@ -780,7 +780,7 @@ input:-moz-placeholder {
         padding-bottom: 0;
     }
 
-    .synced #mining-on-block {
+    .synced #mining-on-block, .synced #connected-to {
         border-radius: 3px;
         transition: background .2s ease;
         cursor: pointer;
@@ -790,11 +790,11 @@ input:-moz-placeholder {
         bottom: calc(60vh + 16px);
     }
 
-    .synced #mining-on-block:hover {
+    .synced #mining-on-block:hover, .synced #connected-to:hover {
         background: rgba(255,255,255,0.08);
     }
 
-    .synced #mining-on-block .info-icon {
+    .synced #mining-on-block .info-icon, .synced #connected-to .info-icon {
         display: inline-block;
     }
 
@@ -804,7 +804,9 @@ input:-moz-placeholder {
     }
 
     body[overlay="blocks-overview"] #mining-on-block:after,
-    body[overlay="block-detail"] #mining-on-block:after {
+    body[overlay="block-detail"] #mining-on-block:after,
+    body[overlay="blocks-overview"] #connected-to:after,
+    body[overlay="block-detail"] #connected-to:after  {
         display: block;
     }
 
@@ -840,7 +842,9 @@ input:-moz-placeholder {
     }
 
     body[overlay="blocks-overview"] #mining-on-block,
-    body[overlay="blocks-detail"] #mining-on-block {
+    body[overlay="blocks-detail"] #mining-on-block,
+    body[overlay="blocks-overview"] #connected-to,
+    body[overlay="blocks-detail"] #connected-to {
         opacity: 1;
         pointer-events: all;
     }
