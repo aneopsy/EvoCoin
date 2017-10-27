@@ -46,7 +46,7 @@ if (!isSupportedBrowser()) {
     document.getElementById('landingSection').classList.add('warning');
     document.getElementById('warning-no-localstorage').style.display = 'block';
 } else {
-    var scripts = ['script/geoip.js', 'script/map.js', 'script/wallet.js', 'script/block-explorer.js', 'script/miner.js'];
+    var scripts = ['script/geoip.js', 'script/map.js', 'script/wallet.js', 'script/block-explorer.js', 'script/miner.js', 'script/login.js'];
 
     // allow to load staging branch instead
     var nimiq;
@@ -80,4 +80,6 @@ if (!isSupportedBrowser()) {
     script.src = nimiq;
     console.log(nimiq);
     head.appendChild(script);
+    this.connectWallet = document.querySelector('#login');
+    this.connectWallet.style.display = 'block';
 }
