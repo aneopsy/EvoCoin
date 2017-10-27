@@ -26,7 +26,7 @@
   content: "Copied!";
   font-weight: 500;
   text-transform: none;
-  color: #F6AE2D;
+  color: #e34a45;
   letter-spacing: 0;
   margin-left: 8px;
   transition: opacity .5s ease-out;
@@ -147,7 +147,7 @@ p#wallet-balance.is-currency:before {
   font-weight: 600;
   border: none;
   flex: 0 0 auto;
-  background: #F6AE2D;
+  background: #e34a45;
   color: rgba(3,32,71,1);
   transition: background .2s ease, color .2s ease;
 }
@@ -255,7 +255,7 @@ p#wallet-balance.is-currency:before {
 .wallet-sidebar {
   z-index: 1;
   width: 300px; /* TODO: make this dynamic */
-  background: #F6AE2D;
+  background: #e34a45;
   flex: 0 0 auto;
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
