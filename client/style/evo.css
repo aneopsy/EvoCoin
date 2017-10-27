@@ -33,11 +33,6 @@ header .logo {
   font-size: 18px;
 }
 
-header .logo svg {
-  margin-right: 16px;
-  /* width: 32px; */
-}
-
 header .logo img {
   margin-right: 16px;
   width: 42px;
@@ -64,7 +59,7 @@ header .menu a {
 }
 
 header .menu a:hover {
-  color: #e34a45;
+  color: #e2a62f;
 }
 
 .center, .content {
@@ -147,7 +142,7 @@ p {
 a {
   text-decoration: none;
   font-size: 17px;
-  color: #e34a45;
+  color: #e2a62f;
   transition: color .3s, text-decoration .3s;
 }
 
@@ -162,8 +157,8 @@ a {
 }
 
 .secondary-button {
-  border: 2px solid #e34a45;
-  color: #e34a45;
+  border: 2px solid #e2a62f;
+  color: #e2a62f;
 }
 
 section img {

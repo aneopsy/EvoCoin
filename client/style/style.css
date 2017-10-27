@@ -1,3 +1,1047 @@
+html,
+body {
+    background-color: #042146;
+    overflow: hidden;
+    color: rgba(255, 255, 255, 0.88);
+    text-align: center;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 13px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body > * {
+    z-index: 1;
+}
+
+b {
+    font-weight: 600;
+}
+
+p, a, h1, h2, h3 {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* map styling */
+
+#map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: table;
+    transition: filter .3s ease;
+}
+
+#map > div {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    padding: 60px 16px;
+}
+
+#map svg {
+    fill: none;
+    /* max-height: 80vh; */
+    width: 85vw;
+    margin: auto;
+    opacity: 0.3;
+    transition: 1s opacity;
+    max-width: 800px;
+    /* we have the map as background image such that we can display:none the hexagons
+    in the svg which greatly improves performance on firefox */
+    background-image: url(../images/map.svg);
+}
+
+#map svg.hide-hexagons polygon {
+    display: none;
+}
+
+.peer-desc {
+    color: #ffc107;
+    /* height: 64px; */
+    width: 200px;
+    margin: 0;
+    background-color: rgba(4, 33, 70, 0.55);
+    border-radius: 3px;
+    display: inline-block;
+    padding: 8px;
+    opacity: 0;
+    will-change: opacity;
+    transition: 0.3s opacity;
+    text-align: center;
+    pointer-events: none;
+    position: fixed;
+    margin-left: -100px;
+    left: 50%;
+    top: 128px;
+}
+
+@media (max-height: 800px) {
+    .peer-desc {
+        top: 40px;
+    }
+}
+
+.peer-desc-container {
+    width: 100%;
+    /* padding-bottom: 32px; */
+    text-align: center;
+    /* height: 64px; */
+    pointer-events: none;
+}
+
+.peer-desc img {
+    width: 24px;
+    display: inline-block;
+}
+
+.own-peer {
+    display: block !important;
+    fill: #ffffff;
+    -webkit-animation: connected 1800ms ease 5;
+    animation: connected 1800ms ease 8;
+}
+
+.connected-peer {
+    display: block !important;
+    fill: #f6ae2d;
+    -webkit-animation: connected 1800ms ease 10;
+    animation: connected 1800ms ease 3;
+}
+
+.known-peer {
+    display: block !important;
+    fill: #7d6739;
+    -webkit-animation: connected 1800ms ease 1;
+    animation: connected 1800ms ease 1;
+}
+
+.own-peer,
+.connected-peer,
+.known-peer {
+    will-change: opacity;
+}
+
+@-webkit-keyframes connected {
+    0% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes connected {
+    0% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+
+.link {
+    stroke: #e2a62f;
+    stroke-width: 1;
+    stroke-dasharray: 5 5;
+    opacity: 0.7;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+/*
+header {
+    animation: 1s fade-in 5s forwards;
+    opacity: 0;
+}
+*/
+
+
+.button {
+    /*background-image: linear-gradient(110deg, #e2a62f, #d7941a);*/
+    background: #e2a62f;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+    border: 2px solid #e2a62f;
+    display: inline-block;
+    font-size: 18px;
+    text-shadow: none;
+    /* transition: color .3s, background-color .3s, border .3s; */
+    vertical-align: middle;
+    line-height: 28px;
+    margin: 8px;
+}
+
+.button:hover {
+    color: #e2a62f;
+    /*border-color: white;*/
+    background: transparent;
+}
+
+.secondary-button {
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, .2);
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    color: white;
+    transition: color .3s, border .3s;
+}
+
+.secondary-button:hover {
+    border: 2px solid #ffc107;
+    color: #ffc107;
+}
+
+.continue-anyways-button {
+    color: white;
+}
+
+.landing-warning {
+    animation: 1s fade-in 2s forwards;
+    position: absolute;
+    top: 75%;
+    left: 0;
+    width: 100%;
+    bottom: 32px;
+    opacity: 0;
+    display: none;
+    font-size: 24px;
+}
+
+.bottom-center {
+    position: absolute;
+    bottom: 16px;
+    padding: 0 16px;
+    left: 0;
+    right: 0;
+}
+
+.bottom-center>* {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.warning-advice {
+    color: #ffc107;
+    font-size: 24px;
+}
+
+#enable-javascript {
+    font-size: 45px;
+}
+
+#warning-mobile-landscape {
+    display: none;
+    animation: none !important;
+    opacity: 1;
+}
+
+.mobile-landscape .hide-mobile-landscape {
+    display: none !important;
+}
+
+.mobile-landscape #warning-mobile-landscape {
+    display: block;
+}
+
+@keyframes scale-in {
+    from {
+        transform: translateY(-8px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+#landingSection {
+    display: block;
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    height: 166px;
+    top: 50%;
+    transition: opacity 1s;
+    margin-top: -124px;
+}
+
+#landingSection h1 {
+    animation: 700ms scale-in ease-in;
+}
+
+#landingSection h1 small {
+    opacity: 0.6;
+}
+
+#landingSection > div {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+#disclaimer {
+	position: fixed !important;
+	bottom: 16px !important;
+	width: 100%;
+	color: rgba(255, 255, 255, 0.7);
+	padding: 0 8px;
+	box-sizing: border-box;
+	animation: 1s fade-in 1s both;
+}
+
+@media screen and (max-width: 650px) {
+    #disclaimer-new-line {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 650px) {
+    #disclaimer {
+        font-size: 20px;
+    }
+}
+
+#copyright {
+    margin-top: 32px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+#initialLoadingSpinner {
+    display: block;
+    margin: auto;
+    animation: 1s fade-in 1s both;
+    width: 56px;
+}
+
+.warning #initialLoadingSpinner,
+.warning #disclaimer {
+    display: none;
+}
+
+#connectBtn {
+    display: none;
+    animation: 700ms fade-in 700ms both;
+    letter-spacing: 0;
+    font-weight: 600;
+    background: #F6AE2D;
+    border: none;
+    transition: background .2s ease;
+}
+
+#connectBtn:hover {
+    background: #E69E1D;
+    color: white;
+}
+
+#miningSection {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    display: none;
+    opacity: 0;
+    padding-bottom: 48px;
+}
+
+#warning-miner-stopped {
+    transition: opacity 1s;
+    opacity: 0;
+    font-size: 24px;
+    padding: 1vh 0;
+    pointer-events: all;
+    position: relative;
+    z-index: 5;
+}
+
+#warning-miner-stopped a {
+    font-size: 24px;
+}
+
+#warning-consensus-lost {
+    transition: opacity 1s;
+    opacity: 0;
+    font-size: 24px;
+    padding: 1vh 0;
+}
+
+#warning-consensus-lost a {
+    font-size: 24px;
+}
+
+.facts {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 16px 0;
+}
+
+.fact {
+    padding: 8px 0;
+    margin-right: 64px;
+    transition: opacity .2s .5s ease;
+}
+
+.fact:last-child {
+    margin-right: 0;
+}
+
+.facts .label {
+    font-size: 13px;
+    color: rgba(255, 255, 255, .6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    margin-bottom: 0px;
+}
+
+.facts .number {
+    font-size: 33px;
+    font-weight: 600;
+}
+
+.facts .unit {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+}
+
+#miningAnimation,
+#nimiqCoinIcon {
+    height: 23px;
+}
+
+#rewardInfo {
+    position: absolute;
+    bottom: 16px;
+    width: 100%;
+    left: 0;
+    font-size: 13px;
+    margin-top: 8px;
+    opacity: 0;
+    color: rgba(255, 255, 255, .6);
+    z-index: 2;
+    transition: visibility .1s .8s linear;
+}
+
+#rewardInfo a {
+    color: inherit;
+    font-size: 12px;
+    text-decoration: underline;
+    white-space: nowrap;
+}
+
+#rewardInfo a:hover {
+    color: white;
+}
+
+#mining-on-block {
+    position: relative;
+    padding: 8px;
+}
+
+#mining-on-block .info-icon {
+    opacity: .6;
+    position: relative;
+    top: 2px;
+    height: 14px;
+    width: 14px;
+    display: none;
+}
+
+#factBalanceContainer {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+}
+
+/* Balance Hover */
+
+#factBalanceContainerInner {
+    padding: 8px;
+    min-width: 131px;
+    cursor: pointer;
+    transition: background .2s ease;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.05);
+}
+
+#factBalanceContainerInner .label {
+    display: flex;
+    justify-content: space-between;
+    color: #F6AE2D;
+}
+
+#factBalanceContainerInner:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+#progressContainer {
+    padding-bottom: 16px;
+    pointer-events: none;
+}
+
+#progress {
+    color: #ffc107;
+    font-size: 26px;
+    line-height: 32px;
+}
+
+#progressBarContainer {
+    background-color: rgba(255, 255, 255, 0.7);
+    height: 3px;
+    width: 160px;
+    margin-top: 8px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 3px;
+}
+
+#progressBar {
+    background-color: #ffc107;
+    height: 100%;
+    width: 100%;
+    /* set the value of the progress bar via transform instead of width. that way, we get subpixel
+    precision and thus a smoother animation */
+    transform: scaleX(0) translateZ(0);
+    -webkit-transform: scaleX(0) translateZ(0);
+    -moz-transform: scaleX(0) translateZ(0);
+    -ms-transform: scaleX(0) translateZ(0);
+    transform-origin: left;
+    transition: transform 0.5s;
+}
+
+.syncing #progress {
+    animation: 1s fade-in 0s normal forwards;
+    /* using animation instead of opacity such that it works well
+        with .synched #progress */
+}
+
+.synced #progress {
+    animation: 1s fade-in 0.5s reverse forwards, 1s fade-in 1.5s normal forwards, 1s fade-in 4s reverse forwards;
+}
+
+.syncing #progressBarContainer {
+    animation: 1s fade-in 0s normal forwards;
+    /* using animation instead of opacity such that it works well
+        with .synched #progressBarContainer */
+}
+
+.synced #progressBarContainer {
+    animation: 1s fade-in 4s reverse forwards;
+}
+
+.synced #rewardInfo {
+    /* wait 5 seconds until fading in because this is when we get the first hashrate value */
+    animation: 1s fade-in 5s normal forwards;
+}
+
+#block-loader {
+    height: 22px;
+    width: auto;
+}
+
+
+/* Buttons & Inputs */
+
+
+input, button {
+    border: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    background: none;
+}
+
+input {
+    padding: 0;
+    line-height: 100%;
+    width: 100%;
+}
+
+input:required {
+    box-shadow:none;
+}
+
+button {
+    margin: 0;
+    line-height: 1;
+}
+
+input:focus, button:focus {
+    outline: none;
+}
+
+input::-webkit-input-placeholder {
+    color: rgba(3,32,71,0.4);
+    line-height: 100%;
+}
+input::-moz-placeholder {
+    color: rgba(3,32,71,0.4);
+    line-height: 100%;
+}
+input:-ms-input-placeholder {
+    color: rgba(3,32,71,0.4);
+    line-height: 100%;
+}
+input:-moz-placeholder {
+    color: rgba(3,32,71,0.4);
+    line-height: 100%;
+}
+
+/* Overlay Context State */
+
+.miner-container {
+    transition: filter .3s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.overlay-root {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.3);
+}
+
+.overlay-exit-area {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100vh;
+}
+
+.overlay {
+    background: white;
+    color: rgba(3,32,71,1);
+    border-radius: 3px;
+    box-shadow: 0 2px 44px 0 rgba(0,0,0,0.3);
+    font-size: 22px;
+    overflow: auto;
+    position: relative;
+    z-index: 2;
+}
+
+.overlay-close {
+    position: fixed;
+    right: 16px;
+    top: 16px;
+    padding: 24px;
+    opacity: .6;
+    transition: opacity .2s ease;
+}
+
+.overlay-close:hover {
+    opacity: 1;
+}
+
+.overlay-container {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    max-height: 650px;
+    box-sizing: border-box;
+    padding: 24px;
+    position: relative;
+}
+
+.overlay p, h1, h2, h3, ul {
+    margin: 0;
+    padding: 0;
+}
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+
+.overlay .uppercase {
+    text-transform: uppercase;
+    letter-spacing: initial;
+}
+
+.label {
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(3,32,71,.4);
+}
+
+.overlay-head {
+    padding: 32px;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    background: rgba(3,32,71,.03);
+    flex: 1;
+}
+
+.overlay-head-col .label {
+    margin-bottom: 8px;
+}
+
+#mining-on-block:after{
+    content: "";
+    position: absolute;
+    bottom: -24px;
+    width: 15px;
+    height: 15px;
+    left: 50%;
+    transform: translate(-50%, 0) rotate(45deg);
+    border-top: 1px solid #455874;
+    border-left: 1px solid #455874;
+    display: none;
+}
+
+.separator {
+    position: absolute;
+    height: 1px;
+    width: 22px;
+    left: 50%;
+    bottom: -17px;
+    transform: translate(-50%, 0);
+    display: none;
+}
+
+.separator:before, .separator:after {
+    content: "";
+    position: absolute;
+    height: 1px;
+    width: 100vw;
+    background: #455874;
+}
+
+.separator:before {
+    left: 100%
+}
+.separator:after {
+    right: 100%
+}
+
+#exit-blocks-overview {
+    display: none;
+}
+
+
+@media (max-width: 340px) {
+    #miningSection {
+        padding-bottom: 64px;
+    }
+}
+
+@media (min-width: 700px) {
+    #miningSection {
+        padding-bottom: 32px;
+    }
+}
+
+/* Overlay State */
+
+@media (min-width: 850px) {
+
+    #blocks-overview-container {
+        display: block !important;
+    }
+
+    #miningSection {
+        transition: transform .5s ease-out, opacity 1s;
+        margin-bottom: -60vh;
+        padding-bottom: 0;
+    }
+
+    .synced #mining-on-block {
+        border-radius: 3px;
+        transition: background .2s ease;
+        cursor: pointer;
+    }
+
+    #rewardInfo {
+        bottom: calc(60vh + 16px);
+    }
+
+    .synced #mining-on-block:hover {
+        background: rgba(255,255,255,0.08);
+    }
+
+    .synced #mining-on-block .info-icon {
+        display: inline-block;
+    }
+
+    body[overlay="blocks-overview"] #miningSection,
+    body[overlay="block-detail"] #miningSection {
+        transform: translate(0,-60vh);
+    }
+
+    body[overlay="blocks-overview"] #mining-on-block:after,
+    body[overlay="block-detail"] #mining-on-block:after {
+        display: block;
+    }
+
+    /* body[overlay="blocks-overview"] {
+        background: #001531;
+    } */
+
+    body[overlay="blocks-overview"] #blocks-overview-container,
+    body[overlay="block-detail"] #blocks-overview-container {
+        overflow: auto;
+    }
+
+    body[overlay="blocks-overview"] #exit-blocks-overview,
+    body[overlay="block-detail"] #exit-blocks-overview {
+        display: block;
+    }
+
+    body[overlay="blocks-overview"] .separator,
+    body[overlay="block-detail"] .separator {
+        display: block;
+    }
+
+    body[overlay="blocks-overview"] #rewardInfo,
+    body[overlay="block-detail"] #rewardInfo {
+        visibility: hidden;
+        transition: visibility .1s linear;
+    }
+
+    body[overlay="blocks-overview"] .fact,
+    body[overlay="block-detail"] .fact {
+        opacity: .3;
+        pointer-events: none;
+    }
+
+    body[overlay="blocks-overview"] #mining-on-block,
+    body[overlay="blocks-detail"] #mining-on-block {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    body[overlay="blocks-overview"] #map {
+        filter: blur(10px);
+    }
+}
+
+body[overlay="wallet"] .miner-container,
+body[overlay="block-detail"] .miner-container {
+    filter: blur(10px);
+}
+
+body[overlay="wallet"].mobile-landscape .miner-container,
+body[overlay="block-detail"].mobile-landscape .miner-container {
+    filter: none;
+}
+
+body[overlay="wallet"] #wallet {
+    display: flex;
+}
+
+body[overlay="block-detail"] #block-detail {
+    display: flex;
+}
+
+/* Node Details Label */
+
+.node-label {
+    position: absolute;
+    background: rgba(0,0,0,0.3);
+    border-radius: 3px;
+    padding: 10px !important;
+    top: 50%;
+    left: 50%;
+}
+
+.node-label h3 {
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+    line-height: 1;
+}
+
+.node-label p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1;
+    margin: 8px 0 0;
+}
+
+.node-label.to-right h2,
+.node-label.to-right p {
+    text-align: left;
+}
+
+.node-label.to-left {
+    transform: translate(-100%, 0);
+}
+
+.node-label.to-left h2,
+.node-label.to-left p {
+    text-align: right;
+}
+
+.is-currency:before {
+    content: "";
+    background: url('images/logo_blue.svg') no-repeat;
+    display: inline-block;
+    background-size: contain;
+    vertical-align: baseline;
+    position: relative;
+}
+
+/* Tablet / Phone */
+
+@media screen and (max-width: 920px) {
+    .facts {
+        /*flex-direction: column;*/
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 0;
+    }
+    .fact {
+        /*width: 64%;*/
+        margin: 0 12px 16px;
+    }
+    .facts .label {
+        margin-bottom: 0px;
+        min-height: 13px;
+        line-height: 12px;
+    }
+    #rewardInfo a {
+        font-size: 12px;
+    }
+    header {
+        padding: 16px;
+    }
+
+    #progress {
+        font-size: 16px;
+    }
+    #rewardInfo {
+        padding-top: 0;
+    }
+    #rewardInfo a {
+        /* display: none; */
+        /*display: block;*/
+        padding: 1px;
+    }
+    #map svg {
+        width: 102%;
+        /* padding: 8px; */
+        box-sizing: border-box;
+    }
+    #initialLoadingSpinner {
+        width: 48px;
+    }
+    #progressBarContainer {
+        margin-top: 2px;
+    }
+
+    #progressContainer{
+        padding-bottom: 8px;
+    }
+}
+
+@media (max-width: 800px) {
+    #map {
+        opacity: 0.3;
+    }
+    #map svg {
+        opacity: 1;
+    }
+    /* disable map animations when map is in background */
+    .own-peer, .connected-peer, .known-peer {
+        -webkit-animation: none;
+        animation: none;
+        will-change: initial;
+    }
+}
+
+
+/* Large Screen */
+
+@media screen and (min-width: 1080px) {
+    #map svg {
+        /* width: 1082px; */
+        /* height: 502px; */
+        /* padding: 8px; */
+        box-sizing: border-box;
+        transform: scale(1.28);
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    #map svg {
+        /* width: 1082px; */
+        /* height: 502px; */
+        /* padding: 8px; */
+        box-sizing: border-box;
+        transform: scale(1.5);
+    }
+}
+
+@media screen and (min-width: 1800px) {
+    #map svg {
+        /* width: 1082px; */
+        /* height: 502px; */
+        /* padding: 8px; */
+        box-sizing: border-box;
+        transform: scale(1.75);
+    }
+}
+
+@media (max-width: 470px) {
+    .overlay-container {
+        max-height: none;
+        padding: 80px 8px 8px;
+    }
+
+    .overlay-close {
+        top: 4px;
+        right: 4px;
+    }
+
+    .overlay-head {
+        padding: 24px;
+    }
+}
+
+@media (max-width: 360px) {
+    .overlay-head {
+        display: block;
+    }
+
+    .overlay-head-col {
+        text-align: left;
+    }
+}
 html, body {
   background-color: #042146;
   overflow: hidden;
@@ -100,13 +1144,13 @@ p, a, h1, h2, h3 {
 .own-peer {
   display: block !important;
   fill: #ffffff;
-  -webkit-animation: connected 1800ms ease 8;
-  animation: connected 1800ms ease 5;
+  -webkit-animation: connected 1800ms ease 5;
+  animation: connected 1800ms ease 8;
 }
 
 .connected-peer {
   display: block !important;
-  fill: #e34a45;
+  fill: #f6ae2d;
   -webkit-animation: connected 1800ms ease 10;
   animation: connected 1800ms ease 3;
 }
@@ -147,7 +1191,7 @@ p, a, h1, h2, h3 {
 }
 
 .link {
-  stroke: #e34a45;
+  stroke: #e2a62f;
   stroke-width: 1;
   stroke-dasharray: 5 5;
   opacity: 0.7;
@@ -170,10 +1214,10 @@ header {
 */
 
 .button {
-  /*background-image: linear-gradient(110deg, #e34a45, #d7941a);*/
-  background: #e34a45;
+  /*background-image: linear-gradient(110deg, #e2a62f, #d7941a);*/
+  background: #e2a62f;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-  border: 2px solid #ba302c;
+  border: 2px solid #e2a62f;
   display: inline-block;
   font-size: 18px;
   text-shadow: none;
@@ -184,7 +1228,7 @@ header {
 }
 
 .button:hover {
-  color: #ba302c;
+  color: #e2a62f;
   /*border-color: white;*/
   background: transparent;
 }
@@ -197,8 +1241,8 @@ header {
 }
 
 .secondary-button:hover {
-  border: 2px solid #ba302c;
-  color: #ba302c;
+  border: 2px solid #ffc107;
+  color: #ffc107;
 }
 
 .continue-anyways-button {
@@ -322,7 +1366,7 @@ header {
   display: block;
   margin: auto;
   animation: 1s fade-in 1s both;
-  width: 64px;
+  width: 56px;
 }
 
 .warning #initialLoadingSpinner, .warning #disclaimer {
@@ -334,13 +1378,13 @@ header {
   animation: 700ms fade-in 700ms both;
   letter-spacing: 0;
   font-weight: 600;
-  background: #e34a45;
+  background: #F6AE2D;
   border: none;
   transition: background .2s ease;
 }
 
 #connectBtn:hover {
-  background: #ba302c;
+  background: #E69E1D;
   color: white;
 }
 
@@ -415,7 +1459,7 @@ header {
   font-size: 16px;
 }
 
-#miningAnimation, #evoCoinIcon {
+#miningAnimation, #nimiqCoinIcon {
   height: 23px;
 }
 
@@ -443,12 +1487,12 @@ header {
   color: white;
 }
 
-#mining-on-block, #connected-to {
+#mining-on-block {
   position: relative;
   padding: 8px;
 }
 
-#mining-on-block .info-icon, #connected-to .info-icon {
+#mining-on-block .info-icon {
   opacity: .6;
   position: relative;
   top: 2px;
@@ -477,7 +1521,7 @@ header {
 #factBalanceContainerInner .label {
   display: flex;
   justify-content: space-between;
-  color: #ffc107;
+  color: #F6AE2D;
 }
 
 #factBalanceContainerInner:hover {
@@ -702,7 +1746,7 @@ input:-moz-placeholder {
   margin-bottom: 8px;
 }
 
-#mining-on-block:after, #connected-to:after {
+#mining-on-block:after {
   content: "";
   position: absolute;
   bottom: -24px;
@@ -768,7 +1812,7 @@ input:-moz-placeholder {
     margin-bottom: -60vh;
     padding-bottom: 0;
   }
-  .synced #mining-on-block, .synced #connected-to {
+  .synced #mining-on-block {
     border-radius: 3px;
     transition: background .2s ease;
     cursor: pointer;
@@ -776,16 +1820,16 @@ input:-moz-placeholder {
   #rewardInfo {
     bottom: calc(60vh + 16px);
   }
-  .synced #mining-on-block:hover, .synced #connected-to:hover {
+  .synced #mining-on-block:hover {
     background: rgba(255, 255, 255, 0.08);
   }
-  .synced #mining-on-block .info-icon, .synced #connected-to .info-icon {
+  .synced #mining-on-block .info-icon {
     display: inline-block;
   }
   body[overlay="blocks-overview"] #miningSection, body[overlay="block-detail"] #miningSection {
     transform: translate(0, -60vh);
   }
-  body[overlay="blocks-overview"] #mining-on-block:after, body[overlay="block-detail"] #mining-on-block:after, body[overlay="blocks-overview"] #connected-to:after, body[overlay="block-detail"] #connected-to:after {
+  body[overlay="blocks-overview"] #mining-on-block:after, body[overlay="block-detail"] #mining-on-block:after {
     display: block;
   }
   /* body[overlay="blocks-overview"] {
@@ -808,7 +1852,7 @@ input:-moz-placeholder {
     opacity: .3;
     pointer-events: none;
   }
-  body[overlay="blocks-overview"] #mining-on-block, body[overlay="blocks-detail"] #mining-on-block, body[overlay="blocks-overview"] #connected-to, body[overlay="blocks-detail"] #connected-to {
+  body[overlay="blocks-overview"] #mining-on-block, body[overlay="blocks-detail"] #mining-on-block {
     opacity: 1;
     pointer-events: all;
   }
