@@ -861,3 +861,20 @@ function getCountryName(countryCode) {
     return countryCode;
   }
 }
+
+function copyWalletPrivSeed() {
+    if (typeof $ === 'undefined') {
+        return;
+    }
+
+    var mainContent = document.getElementById('wallet');
+    var input = document.createElement('INPUT');
+
+    input.setAttribute('type', 'text');
+    mainContent.appendChild(input);
+    input.value = $.wallet.dump();
+    input.select();
+    document.execCommand('copy');
+    mainContent.removeChild(input);
+    alert('Wallet seed copied to clipboard');
+}
