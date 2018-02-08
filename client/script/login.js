@@ -5,8 +5,8 @@ class Login {
     // this._loadingSpinner = null;
     this._startButton = document.querySelector('#connectBtn');
     this._startButton.addEventListener('click', this._startEvo);
-    this._accountContainer = $$('#login-account-input');
-    this._accountInput = $$('#login-account-input input');
+    this._accountContainer = document.querySelector('#login-account-input');
+    this._accountInput = document.querySelector('#login-account-input input');
     this._accountInput.onchange = () => this._validateAddress();
     this._accountInput.onkeyup = () => this._validateAddress();
   }
@@ -31,8 +31,8 @@ class Login {
       walletSeed: walletSeed
     } : {}
 
-    // Initialize Nimiq Core.
-    Nimiq.init($ => {
+    // Initialize Evo Core.
+    Evo.init($ => {
       document.getElementById('landingSection').classList.remove('warning');
       document.getElementById('warning-multiple-tabs').style.display = 'none';
       window.$ = $;
@@ -40,9 +40,9 @@ class Login {
       window.Wallet = new WalletUI($);
     }, function(error) {
       document.getElementById('landingSection').classList.add('warning');
-      if (error === Nimiq.ERR_WAIT) {
+      if (error === Evo.ERR_WAIT) {
         document.getElementById('warning-multiple-tabs').style.display = 'block';
-      } else if (error === Nimiq.ERR_UNSUPPORTED) {
+      } else if (error === Evo.ERR_UNSUPPORTED) {
         document.getElementById('warning-old-browser').style.display = 'block';
       } else {
         document.getElementById('warning-general-error').style.display = 'block';

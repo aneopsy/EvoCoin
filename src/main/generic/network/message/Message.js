@@ -111,7 +111,7 @@ Message.Type = {
 
     SENDHEADERS: 'sendheaders',
 
-    // Nimiq
+    // Evo
     GETBALANCES: 'getbalances',
     BALANCES: 'balances'
 };

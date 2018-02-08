@@ -40,7 +40,7 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-nimiq::before {
+.icon-Evo::before {
     content: "\e900";
 }
 
@@ -66,7 +66,7 @@ header .name span {
     font-size: 42px;
 }
 
-header .icon-nimiq::before {
+header .icon-Evo::before {
     color: #FFC107;
     margin-right: 10px;
     font-size: 54px;
@@ -217,7 +217,7 @@ hash {
     border-top-right-radius: 3px;
 }
 
-.info-block .icon-nimiq::before {
+.info-block .icon-Evo::before {
     font-size: 12px;
     margin-right: 2px;
 }

@@ -12,7 +12,7 @@ class WebRtcConfig {
             WebRtcConfig._config = {
                 iceServers: [
                     { urls: 'stun:stun.l.google.com:19302' },
-                    { urls: 'stun:stun.nimiq-network.com:19302' }
+                    { urls: 'stun:stun.Evo-network.com:19302' }
                 ],
                 certificates : [certificate]
             };

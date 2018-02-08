@@ -1,4 +1,4 @@
-const Nimiq = require('../../dist/node.js');
+const Evo = require('../../dist/node.js');
 const argv = require('minimist')(process.argv.slice(2));
 
 if (!argv.host || !argv.port || !argv.key || !argv.cert) {
@@ -16,7 +16,7 @@ const cert = argv.cert;
 const walletSeed = argv['wallet-seed'] || null;
 
 if (argv['log']) {
-    Nimiq.Log.instance.level = argv['log'] === true ? Log.VERBOSE : argv['log'];
+    Evo.Log.instance.level = argv['log'] === true ? Log.VERBOSE : argv['log'];
 }
 if (argv['log-tag']) {
     if (!Array.isArray(argv['log-tag'])) {
@@ -24,28 +24,28 @@ if (argv['log-tag']) {
     }
     argv['log-tag'].forEach((lt) => {
         const s = lt.split(':');
-        Nimiq.Log.instance.setLoggable(s[0], s.length == 1 ? 2 : s[1]);
+        Evo.Log.instance.setLoggable(s[0], s.length == 1 ? 2 : s[1]);
     });
 }
 
-console.log(`Nimiq NodeJS Client starting (host=${host}, port=${port}, miner=${!!miner}, passive=${!!passive})`);
+console.log(`Evo NodeJS Client starting (host=${host}, port=${port}, miner=${!!miner}, passive=${!!passive})`);
 
 function _balanceChanged(balance) {
-    if (!balance) balance = Nimiq.Balance.INITIAL;
-    console.log('Balance: ' + Nimiq.Policy.satoshisToCoins(balance.value));
+    if (!balance) balance = Evo.Balance.INITIAL;
+    console.log('Balance: ' + Evo.Policy.satoshisToCoins(balance.value));
 }
 
 // XXX Configure Core.
 // TODO Create config/options object and pass to Core.get()/init().
-Nimiq.NetworkConfig.configurePeerAddress(host, port);
-Nimiq.NetworkConfig.configureSSL(key, cert);
+Evo.NetworkConfig.configurePeerAddress(host, port);
+Evo.NetworkConfig.configureSSL(key, cert);
 
 const options = {
     'walletSeed': walletSeed
 };
 
 try {
-    (new Nimiq.Core(options)).then($ => {
+    (new Evo.Core(options)).then($ => {
         console.log(`Blockchain: height=${$.blockchain.height}, totalWork=${$.blockchain.totalWork}, headHash=${$.blockchain.headHash.toBase64()}`);
 
         $.blockchain.on('head-changed', (head) => {
@@ -75,11 +75,11 @@ try {
     });
 } catch (code) {
     switch (code) {
-        case Nimiq.Wallet.ERR_INVALID_WALLET_SEED:
+        case Evo.Wallet.ERR_INVALID_WALLET_SEED:
             console.log('Invalid wallet seed');
             break;
         default:
-            console.log('Nimiq initialization error');
+            console.log('Evo initialization error');
             break;
     }
 }

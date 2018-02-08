@@ -1,38 +1,38 @@
-# Nimiq Core API documentation
-All Nimiq Core classes reside in the `Nimiq.` namespace.
+# Evo Core API documentation
+All Evo Core classes reside in the `Evo.` namespace.
 
-## Nimiq
+## Evo
 
 ### Basic initialization
 
 ```js
-Nimiq.init($ => {
-    // $ is the Nimiq.Core instance
+Evo.init($ => {
+    // $ is the Evo.Core instance
 });
 ```
 
 ### Initialization with error callback
-- `Nimiq.ERR_WAIT`: An instance of Nimiq Core is already running in another window of the same origin. When all other windows are closed, the success callback will be invoked.
-- `Nimiq.ERR_UNSUPPORTED`: This browser is not supported.
-- `Nimiq.ERR_UNKNOWN`: An unknown error occured while loading.
-- `Nimiq.Wallet.ERR_INVALID_WALLET_SEED` : An invalid wallet seed has been provided.
+- `Evo.ERR_WAIT`: An instance of Evo Core is already running in another window of the same origin. When all other windows are closed, the success callback will be invoked.
+- `Evo.ERR_UNSUPPORTED`: This browser is not supported.
+- `Evo.ERR_UNKNOWN`: An unknown error occured while loading.
+- `Evo.Wallet.ERR_INVALID_WALLET_SEED` : An invalid wallet seed has been provided.
 
 ```js
-Nimiq.init($ => {
-    // $ is the Nimiq.Core instance
+Evo.init($ => {
+    // $ is the Evo.Core instance
 }, code => {
     switch (code) {
-        case Nimiq.ERR_WAIT:
-            alert('Another Nimiq instance is already running');
+        case Evo.ERR_WAIT:
+            alert('Another Evo instance is already running');
             break;
-        case Nimiq.ERR_UNSUPPORTED:
+        case Evo.ERR_UNSUPPORTED:
             alert('Browser not supported');
             break;
-        case Nimiq.Wallet.ERR_INVALID_WALLET_SEED:
+        case Evo.Wallet.ERR_INVALID_WALLET_SEED:
             alert("Invalid wallet seed");
             break;
         default:
-            alert('Nimiq initialization error');
+            alert('Evo initialization error');
             break;
     }
 });
@@ -43,15 +43,15 @@ You can pass some options to initialization.
 
 | Option        | Description           |
 | ------------- |:-------------:|
-| **_walletSeed_** | Wallet seed (See [Nimiq.Wallet](#wallet)) |
+| **_walletSeed_** | Wallet seed (See [Evo.Wallet](#wallet)) |
 
 ```js
 const options = {
   walletSeed: "d6a651dcc13dab2e9d05d..."
 }
 
-Nimiq.init($ => {
-    // $ is the Nimiq.Core instance
+Evo.init($ => {
+    // $ is the Evo.Core instance
 }, code => {
   // Handle errors
 },
@@ -61,21 +61,21 @@ Nimiq.init($ => {
 
 ### Get an existing instance
 ```js
-Nimiq.get().then($ => {
-    // $ is the Nimiq.Core instance
+Evo.get().then($ => {
+    // $ is the Evo.Core instance
 });
 ```
 
-## Nimiq.Core
+## Evo.Core
 
 ### Properties
-- `network`: [Nimiq.Network](#network)
-- `consensus`: [Nimiq.Consensus](#consensus)
-- `accounts`: [Nimiq.Accounts](#accounts)
-- `blockchain`: [Nimiq.Blockchain](#blockchain)
-- `mempool`: [Nimiq.Mempool](#mempool)
-- `wallet`: [Nimiq.Wallet](#wallet)
-- `miner`: [Nimiq.Miner](#miner)
+- `network`: [Evo.Network](#network)
+- `consensus`: [Evo.Consensus](#consensus)
+- `accounts`: [Evo.Accounts](#accounts)
+- `blockchain`: [Evo.Blockchain](#blockchain)
+- `mempool`: [Evo.Mempool](#mempool)
+- `wallet`: [Evo.Wallet](#wallet)
+- `miner`: [Evo.Miner](#miner)
 
 ### Methods
 No public methods.
@@ -85,7 +85,7 @@ No events.
 
 
 <a name="network"></a>
-## Nimiq.Network
+## Evo.Network
 The network will not connect automatically, call `$.network.connect()` to do so.
 
 ### Properties
@@ -119,7 +119,7 @@ $.network.on('peer-left', peer => console.log(`Peer ${peer} left`));
 
 
 <a name="consensus"></a>
-## Nimiq.Consensus
+## Evo.Consensus
 
 ### Properties
 - `established`
@@ -140,7 +140,7 @@ $.consensus.on('established', () => console.log('consensus established!'))
 
 
 <a name="accounts"></a>
-## Nimiq.Accounts
+## Evo.Accounts
 
 ### Properties
 No public properties.
@@ -171,7 +171,7 @@ $.accounts.on('a09rjiARiVYh2zJS0/1pYKZg4/A=').then(balance => {
 
 
 <a name="blockchain"></a>
-## Nimiq.Blockchain
+## Evo.Blockchain
 
 ### Properties
 - `head`
@@ -207,7 +207,7 @@ $.blockchain.on('head-changed', () => {
 
 
 <a name="mempool"></a>
-## Nimiq.Mempool
+## Evo.Mempool
 
 ### Properties
 No public properties.
@@ -223,7 +223,7 @@ No public properties.
 
 
 <a name="wallet"></a>
-## Nimiq.Wallet
+## Evo.Wallet
 
 ### Properties
 - `address`
@@ -251,7 +251,7 @@ var restoredWallet = await Wallet.load(walletSeed);
 ```
 
 <a name="miner"></a>
-## Nimiq.Miner
+## Evo.Miner
 Mining should not start before consensus is established and stop when consensus is lost. The Miner does not explicitely enforce this, but callers should ensure this behavior.
 
 ```js

@@ -277,7 +277,7 @@ nan@^2.5.1, nan@~2.6.1:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.6.2.tgz#e4ff34e6c95fdfb5aecc08de6596f43605a7db45"
 
-nimiq@../..:
+Evo@../..:
   version "1.0.0"
   dependencies:
     atob "^2.0.3"

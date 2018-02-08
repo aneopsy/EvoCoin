@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>Nimiq Blockchain Cockpit &ndash; Alpha</title>
+    <title>Evo Blockchain Cockpit &ndash; Alpha</title>
 
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
@@ -12,19 +12,19 @@
 </head>
 <body>
 <header>
-    <span class="name icon-nimiq">nimiq</span>
+    <span class="name icon-Evo">Evo</span>
     <span class="subtitle">Blockchain Cockpit &mdash; Alpha</span>
-    <a class="headerlink" href="https://github.com/nimiq-network" target="_blank">GitHub</a>
-    <a class="headerlink" href="https://nimiq.com/" target="_blank">Website</a>
-    <a class="headerlink" href="https://nimiq.watch/" target="_blank">Explorer</a>
+    <a class="headerlink" href="https://github.com/Evo-network" target="_blank">GitHub</a>
+    <a class="headerlink" href="https://Evo.com/" target="_blank">Website</a>
+    <a class="headerlink" href="https://Evo.watch/" target="_blank">Explorer</a>
 </header>
 
-<script src="../../dist/nimiq.js"></script>
+<script src="../../dist/Evo.js"></script>
 
 <div id="content">
     <div id="overlay">
         <div class="message">
-            Nimiq Blockchain Cockpit is already running in another browser window or tab.
+            Evo Blockchain Cockpit is already running in another browser window or tab.
             <br><br>
             <small>Please use only one window/tab at a time.</small>
         </div>
@@ -38,7 +38,7 @@
             <div class="info-block init-wallet">
 
                 <div id="newWallet" >
-                    Nimiq Testnet stores your wallet in your browser<br/>
+                    Evo Testnet stores your wallet in your browser<br/>
                     Load an existing browser wallet or create a new wallet:
                     <button class="greenbutton" start-button><strong>Create/Load Wallet</strong></button>
                 </div>
@@ -48,7 +48,7 @@
 
                     <div class="clr-both"></div>
                     <small class="get-seed-hint">
-                        A wallet seed is a private key that governs access to a Nimiq address<br/>
+                        A wallet seed is a private key that governs access to a Evo address<br/>
                         You can export your wallet seed once a wallet has been created<br/>
                      </small>
                  </div>
@@ -221,7 +221,7 @@
     //
     //
     //
-    // var nim_openRequest = indexedDB.open('nimiq'); //indexedDB.open('nimiq', {version: 4, storage: "temporary"} );
+    // var nim_openRequest = indexedDB.open('Evo'); //indexedDB.open('Evo', {version: 4, storage: "temporary"} );
     // nim_openRequest.onsuccess = function(event) {
     //     var nim_db = event.target.result;
     //     try {
@@ -229,7 +229,7 @@
     //     }
     //     catch (e) {
     //        document.getElementById('newWallet').style.display = 'block';
-    //        //var nim_remove_nonexistant_db = indexedDB.deleteDatabase('nimiq');
+    //        //var nim_remove_nonexistant_db = indexedDB.deleteDatabase('Evo');
     //        console.log('blank (hopefully!) indexedDB deleted');
     //        return;
     //     }
@@ -322,7 +322,7 @@
 
             $.accounts.getBalance($.wallet.address).then(function(balance) {
                 this._balanceChanged(balance);
-                document.querySelector('#wltBalance').classList.add('icon-nimiq');
+                document.querySelector('#wltBalance').classList.add('icon-Evo');
             }.bind(this));
 
             var txSubmitBtn = document.querySelector('#txSubmitBtn');
@@ -377,7 +377,7 @@
             }
             var address;
             try {
-                address = new Nimiq.Address(Nimiq.BufferUtils.fromHex(recipientAddr));
+                address = new Evo.Address(Evo.BufferUtils.fromHex(recipientAddr));
             } catch (e) {
                 elRecipientAddr.className = 'error';
                 return;
@@ -394,8 +394,8 @@
             }
 
             $.accounts.getBalance($.wallet.address).then(function(balance) {
-                value = Nimiq.Policy.coinsToSatoshis(value);
-                fee = Nimiq.Policy.coinsToSatoshis(fee);
+                value = Evo.Policy.coinsToSatoshis(value);
+                fee = Evo.Policy.coinsToSatoshis(fee);
 
                 if (balance.value < value + fee) {
                     elValue.className = 'error';
@@ -434,8 +434,8 @@
 
             head.transactions.forEach(function(tx) {
                 txPromises.push(tx.getSenderAddr().then(function(senderAddr) {
-                    var value = Nimiq.Policy.satoshisToCoins(tx.value).toFixed(4);
-                    var fee = Nimiq.Policy.satoshisToCoins(tx.fee).toFixed(4);
+                    var value = Evo.Policy.satoshisToCoins(tx.value).toFixed(4);
+                    var fee = Evo.Policy.satoshisToCoins(tx.fee).toFixed(4);
                     return `<div>&nbsp;-&gt; from=<hash>${senderAddr.toHex()}</hash>, to=<hash>${tx.recipientAddr.toHex()}</hash>, value=${value}, fee=${fee}, nonce=${tx.nonce}</div>`;
                 }));
             });
@@ -500,8 +500,8 @@
         }
 
         _balanceChanged(balance) {
-            if (!balance) balance = Nimiq.Balance.INITIAL;
-            this._wltBalance.innerText = Nimiq.Policy.satoshisToCoins(balance.value).toFixed(Math.log10(Nimiq.Policy.SATOSHIS_PER_COIN));
+            if (!balance) balance = Evo.Balance.INITIAL;
+            this._wltBalance.innerText = Evo.Policy.satoshisToCoins(balance.value).toFixed(Math.log10(Evo.Policy.SATOSHIS_PER_COIN));
             this._wltNonce.innerText = balance.nonce;
         }
 
@@ -517,8 +517,8 @@
             txs.forEach(function(tx) {
                 tx.getSenderAddr().then(function(senderAddr) {
                     var el = document.createElement('div');
-                    var value = Nimiq.Policy.satoshisToCoins(tx.value).toFixed(4);
-                    var fee = Nimiq.Policy.satoshisToCoins(tx.fee).toFixed(4);
+                    var value = Evo.Policy.satoshisToCoins(tx.value).toFixed(4);
+                    var fee = Evo.Policy.satoshisToCoins(tx.fee).toFixed(4);
                     el.innerHTML = `from=<hash>${senderAddr.toHex()}</hash>, to=<hash>${tx.recipientAddr.toHex()}</hash>, value=${value}, fee=${fee}, nonce=${tx.nonce}`;
                     this._mplTransactions.appendChild(el);
                 }.bind(this));
@@ -549,7 +549,7 @@
     }
 
 
-    function startNimiq() {
+    function startEvo() {
         document.getElementById('blockchain-title').classList.add('initializing');
         document.querySelector('#wltAddress').innerHTML = '<i>loading...</i>';
 
@@ -560,7 +560,7 @@
         var walletSeed = document.getElementById('walletSeed').value.trim();
         var options = (walletSeed !== '') ? { walletSeed: walletSeed } : {};
 
-        Nimiq.init(function($) {
+        Evo.init(function($) {
             window.$ = $;
             $.network.connect();
 
@@ -578,17 +578,17 @@
             });
 
             switch (code) {
-                case Nimiq.ERR_WAIT:
+                case Evo.ERR_WAIT:
                     overlay_.style.display = 'block';
                     break;
-                case Nimiq.ERR_UNSUPPORTED:
+                case Evo.ERR_UNSUPPORTED:
                     alert('Browser not supported');
                     break;
-                case Nimiq.Wallet.ERR_INVALID_WALLET_SEED:
+                case Evo.Wallet.ERR_INVALID_WALLET_SEED:
                     alert('Invalid wallet seed');
                     break;
                 default:
-                    alert('Nimiq initialization error');
+                    alert('Evo initialization error');
                     break;
             }
         },
@@ -596,7 +596,7 @@
     }
 
     startButtons.forEach(function(startButton) {
-        startButton.addEventListener('click', startNimiq);
+        startButton.addEventListener('click', startEvo);
     });
 </script>
 </body>

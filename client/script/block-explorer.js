@@ -184,7 +184,7 @@ class BlockEntry {
 			let totalAmount = block.transactions.reduce(function(sum, transaction) {
 				return sum + transaction.value + transaction.fee;
 			}, 0);
-			totalAmount = Nimiq.Policy.satoshisToCoins(totalAmount).toFixed(2);
+			totalAmount = Evo.Policy.satoshisToCoins(totalAmount).toFixed(2);
 			this._totalAmountEl.textContent = totalAmount;
 			this._totalAmountEl.style.display = 'inline';
 			this._closingParenthesis.style.display = 'inline';
@@ -229,9 +229,9 @@ class BlockDetailUi {
 		let totalAmount = block.transactions.reduce(function(sum, transaction) {
 			return sum + transaction.value + transaction.fee;
 		}, 0);
-		totalAmount = Nimiq.Policy.satoshisToCoins(totalAmount).toFixed(2);
+		totalAmount = Evo.Policy.satoshisToCoins(totalAmount).toFixed(2);
 		this._totalAmountEl.textContent = totalAmount;
-		this._blockRewardEl.textContent = Nimiq.Policy.satoshisToCoins(Nimiq.Policy.BLOCK_REWARD);
+		this._blockRewardEl.textContent = Evo.Policy.satoshisToCoins(Evo.Policy.BLOCK_REWARD);
 		this._difficultyEl.textContent = block.difficulty.toFixed(2);
 		let date = new Date(block.timestamp * 1000);
 		this._timestampEl.textContent = this._padNumber(date.getMonth()+1, 2) + '/'
@@ -269,7 +269,7 @@ class BlockDetailUi {
 				value.classList.add('is-currency');
 				transaction.getSenderAddr().then(address => sender.textContent=address.toHex().toUpperCase());
 				recipient.textContent = transaction.recipientAddr.toHex().toUpperCase();
-				value.textContent = Nimiq.Policy.satoshisToCoins(transaction.value).toFixed(2);
+				value.textContent = Evo.Policy.satoshisToCoins(transaction.value).toFixed(2);
 				entry.appendChild(sender);
 				entry.appendChild(recipient);
 				entry.appendChild(value);

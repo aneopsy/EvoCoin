@@ -72,7 +72,7 @@ class FactsUI {
   }
 
   set myBalance(balance) {
-    this._myBalance.textContent = Nimiq.Policy.satoshisToCoins(balance).toFixed(2);
+    this._myBalance.textContent = Evo.Policy.satoshisToCoins(balance).toFixed(2);
   }
 
   set syncing(isSyncing) {
@@ -209,7 +209,7 @@ class PeerDescUI {
   }
 
   show(desc) {
-    const isBrowser = desc.protocol === Nimiq.Protocol.RTC;
+    const isBrowser = desc.protocol === Evo.Protocol.RTC;
     this._setNodeType(isBrowser);
     const nodeType = isBrowser ? 'Browser' : 'Backbone';
     this._text.innerHTML = `<b>${desc.status} ${nodeType}</b><br>${desc.country} ${desc.city}<br><small>${desc.addr || '&nbsp;'}</small>`;
@@ -253,9 +253,9 @@ class MapUI {
     this._mapElem = document.querySelector('#map svg');
     this._map = new HexagonMap(this._mapElem);
     this.$ = $;
-    this._polled = Nimiq.PeerAddresses.SEED_PEERS;
-    this._connectedPeers = new Nimiq.HashMap();
-    this._knownPeers = new Nimiq.HashMap();
+    this._polled = Evo.PeerAddresses.SEED_PEERS;
+    this._connectedPeers = new Evo.HashMap();
+    this._knownPeers = new Evo.HashMap();
     this._cellCountKnown = new CellCounter();
     this._cellCountConnected = new CellCounter();
     this._peerDescUI = new PeerDescUI()
@@ -283,7 +283,7 @@ class MapUI {
   }
 
   _getPeerHost(peer) {
-    if (peer.peerAddress.protocol === Nimiq.Protocol.WS) {
+    if (peer.peerAddress.protocol === Evo.Protocol.WS) {
       return peer.peerAddress.host;
     } else if (peer.netAddress && !peer.netAddress.isPrivate()) {
       return peer.netAddress.ip;
@@ -328,7 +328,7 @@ class MapUI {
   _highlightOwnPeer(response) {
     if (response && response.location && response.location.latitude) {
       var loc = response.location;
-      var locDesc = this._responseToDesc(response, Nimiq.Protocol.RTC, null, 'My');
+      var locDesc = this._responseToDesc(response, Evo.Protocol.RTC, null, 'My');
       var cell = this._map.getCellByLocation(loc.latitude, loc.longitude);
       if (cell) {
         this._ownCell = cell;
@@ -402,7 +402,7 @@ class MapUI {
 
   _pollPeers() {
     if (this._polled.length === 0) {
-      this._polled = this.$.network._addresses.query(Nimiq.Protocol.WS | Nimiq.Protocol.RTC, Nimiq.Services.DEFAULT);
+      this._polled = this.$.network._addresses.query(Evo.Protocol.WS | Evo.Protocol.RTC, Evo.Services.DEFAULT);
       // Limit to 100 addresses.
       this._polled = this._polled.slice(0, 100);
     }
@@ -486,8 +486,8 @@ class Miner {
 
   get globalHashrate() {
     const nBits = this.$.blockchain.head.header.nBits;
-    const difficulty = Nimiq.BlockUtils.compactToDifficulty(nBits);
-    return difficulty * Math.pow(2, 16) / Nimiq.Policy.BLOCK_TIME;
+    const difficulty = Evo.BlockUtils.compactToDifficulty(nBits);
+    return difficulty * Math.pow(2, 16) / Evo.Policy.BLOCK_TIME;
   }
 
   _onConsensusEstablished() {
@@ -580,7 +580,7 @@ class Miner {
 
   _onExpectedHashTimeChanged() {
     const myWinProbability = this.hashrate / this.globalHashrate;
-    this.ui.facts.expectedHashTime = (1 / myWinProbability) * Nimiq.Policy.BLOCK_TIME;
+    this.ui.facts.expectedHashTime = (1 / myWinProbability) * Evo.Policy.BLOCK_TIME;
   }
 
   _onBalanceChanged(balance) {

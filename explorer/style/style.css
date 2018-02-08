@@ -52,7 +52,7 @@ header h1 a {
   text-decoration: none;
 }
 
-header .nimiq-logo {
+header .Evo-logo {
   position: relative;
   top: 0.25em;
 }
@@ -150,7 +150,7 @@ header .submenu a:hover {
   color: limegreen;
 }
 
-img.nimiq_currency {
+img.Evo_currency {
   height: 12px;
 }
 

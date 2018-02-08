@@ -1,0 +1,1129 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    color: rgba(0, 0, 0, 0.88);
+    font-family: 'Source Sans Pro', 'Helvetica Neue', sans-serif;
+    font-size: 15px;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    background: #eee;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+h2, h3 {
+    font-weight: normal;
+}
+
+#wallet {
+    width: 100%;
+    height: 100%;
+    max-height: 600px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    max-width: 500px;
+    border-radius: 3px;
+    transition: max-width 0.5s;
+    box-shadow: 0 2px 44px 0 rgba(0, 0, 0, 0.3);
+    /*box-shadow: 0 16px 24px rgba(0,0,0,0.14), 0 6px 30px rgba(0,0,0,0.12), 0 8px 10px rgba(0,0,0,0.3);*/
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: auto;
+    background: white;
+    color: rgba(3, 32, 71, 1);
+    font-size: 22px;
+    text-align: center;
+    z-index: 2;
+}
+
+header {
+    width: 100%;
+    height: 72px;
+    min-height: 72px;
+    background: #042146;
+    color: white;
+    position: relative;
+    font-size: 17px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+header .logo {
+    display: flex;
+    align-items: center;
+    color: white;
+    /*width: 168px;*/
+    position:absolute;
+    left: 24px;
+    top: 0;
+    height: 100%;
+    font-size: 18px;
+}
+
+header .logo svg {
+    width: 48px;
+}
+
+header .logo .uppercase {
+    font-weight: 700;
+    line-height: 1;
+}
+
+header:not([has-balance]) #header-testnet-caption {
+    display: inline !important;
+}
+
+button {
+    outline: none;
+}
+
+.button, .secondary-button {
+    display: block;
+    border-radius: 3px;
+    margin: auto;
+    padding: 12px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none !important;
+    font-weight: 600;
+    color: white;
+    background: rgba(226, 166, 47, 0.9);
+    transition: background .3s;
+    border: none;
+}
+
+.button:hover {
+    background: #e2a62f;
+}
+
+.secondary-button {
+    background: transparent;
+    border: 2px solid #e2a62f;
+    color: #e2a62f;
+    opacity: 0.8;
+    transition: opcaity .3s;
+}
+
+.secondary-button:hover {
+    opacity: 1;
+}
+
+input {
+    display: block;
+    font-size: 64px;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    width: 100%;
+    text-align: center;
+}
+
+#wallet input::-webkit-input-placeholder {
+    color: rgba(3, 32, 71, 0.3);
+}
+
+#wallet input::-moz-placeholder {
+    color: rgba(3, 32, 71, 0.3);
+}
+
+#wallet input:-ms-input-placeholder {
+    color: rgba(3, 32, 71, 0.3);
+}
+
+#wallet input:-moz-placeholder {
+    color: rgba(3, 32, 71, 0.3);
+}
+
+
+.is-currency:before {
+    content: "";
+    background: url(icons/logo_blue.svg) no-repeat;
+    display: inline-block;
+    background-size: contain;
+    vertical-align: baseline;
+    position: relative;
+}
+
+#wallet-balance {
+    display: none;
+    font-size: 22px;
+    opacity: .8;
+    align-items: center;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 24px;
+}
+
+header[has-balance] #wallet-balance {
+    display: flex;
+}
+
+header #wallet-balance:before {
+    background: url(icons/logo_white.svg) no-repeat;
+    background-size: contain;
+    width: 17px;
+    height: 15px;
+    margin-right: 4px;
+    top: 1px;
+}
+
+/* Create Cashlink Form */
+
+.wallet-pusher {
+    display: flex;
+    flex: 1;
+    background: rgba(3, 32, 71, .03);
+    min-height: 32px;
+}
+
+.wallet-tabbar {
+    background: rgba(3, 32, 71, .03);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1;
+    font-weight: 600;
+    border-bottom: 1px solid #CDD2DA;
+}
+
+.wallet-tab {
+    position: relative;
+    color: rgba(3, 32, 71, .3);
+    padding-bottom: 24px;
+}
+
+.wallet-tab:after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    width: 15px;
+    height: 15px;
+    left: 50%;
+    transform: translate(-50%, 0) rotate(45deg);
+    background: white;
+    border-top: 1px solid #CDD2DA;
+    border-left: 1px solid #CDD2DA;
+}
+
+.wallet-tab.active {
+    color: rgba(3, 32, 71, 1);
+}
+
+input, button {
+    border: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    background: none;
+}
+
+input {
+    padding: 0;
+    line-height: 100%;
+    width: 100%;
+}
+
+input:required {
+    box-shadow: none;
+}
+
+.wallet-actions input {
+    text-align: center;
+}
+
+#wallet-message-input {
+    border-top: 1px solid rgba(3, 32, 71, .15);
+    position: relative;
+}
+
+#wallet-message-input input {
+    padding: 32px;
+    box-sizing: border-box;
+}
+
+#wallet-amount-input {
+    font-size: 80px;
+    position: relative;
+    padding: 16px 0;
+}
+
+#wallet-message-input.invalid:after, #wallet-amount-input.invalid:after {
+    color: #FF795F;
+    font-size: 16px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 100%;
+}
+
+#wallet-message-input.invalid:after {
+    bottom: 10px;
+    content: "The message is too long.";
+}
+
+#wallet-amount-input.invalid:after {
+    bottom: 10px;
+    content: "This is not a valid amount.";
+}
+
+#create-cashlink-button {
+    width: 100%;
+    padding: 32px;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: inherit;
+    font-weight: 600;
+    border: none;
+    flex: 0 0 auto;
+    background: #F6AE2D;
+    color: rgba(3, 32, 71, 1);
+    transition: background .2s ease, color .2s ease;
+}
+
+#create-cashlink-button:disabled {
+    background: rgba(3, 32, 71, .1);
+    color: rgba(3, 32, 71, .3);
+    cursor: default;
+}
+
+#create-cashlink-button:disabled:hover {
+    background: rgba(3, 32, 71, .1);
+    color: rgba(3, 32, 71, .3);
+    cursor: default;
+}
+
+#create-cashlink-button:hover {
+    outline: none;
+    background: #E69E1D;
+}
+
+.label {
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(3, 32, 71, .4);
+}
+
+.small {
+    font-size: 18px;
+}
+
+/* cashlink state */
+
+#wallet[outgoing-transaction-pending] input {
+    cursor: default;
+}
+
+#wallet[outgoing-transaction-pending] input::-webkit-input-placeholder {
+    color: rgba(3, 32, 71, 0.2);
+}
+
+#wallet[outgoing-transaction-pending] input::-moz-placeholder {
+    color: rgba(3, 32, 71, 0.2);
+}
+
+#wallet[outgoing-transaction-pending] input:-ms-input-placeholder {
+    color: rgba(3, 32, 71, 0.2);
+}
+
+#wallet[outgoing-transaction-pending] input:-moz-placeholder {
+    color: rgba(3, 32, 71, 0.2);
+}
+
+#wallet[outgoing-transaction-pending] #create-cashlink-button {
+    color: rgba(3, 32, 71, .3);
+    background: rgba(3, 32, 71, .1);
+    cursor: default;
+}
+
+#wallet[outgoing-transaction-pending] #create-cashlink-button:hover {
+    color: rgba(3, 32, 71, .3);
+}
+
+#wallet[outgoing-transaction-pending] #create-cashlink-button span {
+    display: none;
+}
+
+#wallet[outgoing-transaction-pending] #create-cashlink-button:before {
+    content: "Please wait for confirmation"
+}
+
+/* sidebar */
+
+.wallet-sidebar-container {
+    width: 0;
+    display: flex;
+    justify-content: flex-end;
+    padding: 8px 0;
+    transition: width .5s ease;
+    position: relative;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+[sidebar-open] .wallet-sidebar-container {
+    width: 316px; /* wider then wallet-sidebar to show shadow */
+}
+
+.wallet-sidebar {
+    z-index: 1;
+    width: 300px;
+    background: #F6AE2D;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    padding: 0 0 12px;
+    box-sizing: border-box;
+    color: rgba(3, 32, 71, 1);
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
+    left: 0;
+    top: 16px;
+    bottom: 16px;
+    transform: translate3D(-100%, 0, 0);
+    transition: transform .5s ease, background .3s;
+}
+
+.wallet-sidebar.visible {
+    transform: translate3D(0, 0, 0);
+}
+
+.wallet-sidebar.visible:first-child,
+:not(.visible):first-child + .wallet-sidebar.visible,
+:not(.visible):first-child + :not(.visible) + .wallet-sidebar.visible,
+:not(.visible):first-child + :not(.visible) + :not(.visible) + .wallet-sidebar.visible,
+:not(.visible):first-child + :not(.visible) + :not(.visible) + :not(.visible) + .wallet-sidebar.visible {
+    /* add a shadow to the first visible sidebar */
+    box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.3);
+}
+
+.wallet-sidebar .uppercase {
+    letter-spacing: initial;
+}
+
+.wallet-sidebar.error > * {
+    display: none !important;
+}
+
+.wallet-sidebar.error .sidebar-error {
+    display: flex !important;
+}
+
+.wallet-sidebar.error .wallet-sidebar-leave {
+    display: block !important;
+}
+
+.sidebar-error {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#sync-sidebar, #faucet-sidebar {
+    background: #113057;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 0;
+}
+
+#sync-sidebar h2 {
+    height: auto;
+}
+
+.wallet-sidebar-leave {
+    background: none;
+    position: absolute;
+    top: 0px;
+    right: 0;
+    padding: 24px;
+    transition: opacity .2s ease;
+    border: none;
+}
+
+.wallet-sidebar-leave:hover {
+    opacity: .7;
+}
+
+.wallet-sidebar-close {
+    display: none;
+}
+
+.wallet-sidebar h2 {
+    font-size: 24px;
+    letter-spacing: .5pt;
+    padding: 0 32px;
+    opacity: 1;
+    display: flex;
+    align-items: center;
+}
+
+.wallet-sidebar h2.title {
+    flex-grow: 1;
+    min-height: 64px;
+}
+
+.wallet-sidebar .label {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 8px;
+}
+
+.wallet-sidebar-row {
+    display: flex;
+    margin: 40px 32px 0;
+}
+
+h3.wallet-sidebar-row {
+    margin-top: 0;
+}
+
+.wallet-sidebar-detail {
+    width: 50%;
+    max-width: 100%;
+}
+
+.wallet-sidebar-detail:last-child {
+    margin-right: 0;
+    width: auto;
+}
+
+.wallet-sidebar-detail p {
+    word-break: break-all;
+    color: rgba(3, 32, 71, .6);
+    font-size: 22px;
+    margin: 0;
+}
+
+.wallet-sidebar-detail .is-currency:before {
+    width: 17px;
+    height: 15px;
+    margin-right: 4px;
+    top: 1px;
+    opacity: .6;
+}
+
+.wallet-sidebar-confirmation {
+    padding: 20px 32px;
+    position: relative;
+    transition: background .3s;
+}
+
+.wallet-sidebar-confirmation h3 {
+    font-size: 22px;
+    opacity: .6;
+    letter-spacing: 0;
+}
+
+.wallet-sidebar-confirmation h3:first-of-type:not(:last-child) {
+    margin-top: 0;
+}
+
+.wallet-sidebar-confirmation h3:last-of-type:not(:first-child) {
+    margin-bottom: 0;
+}
+
+.wallet-sidebar-confirmation.confirmed h3 {
+    margin: 22px 0;
+}
+
+.wallet-sidebar-confirmation .wallet-sidebar-row {
+    margin: 20px 0 0;
+}
+
+.wallet-sidebar-bottom {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 96px;
+    padding-bottom: 16px;
+}
+
+.wallet-sidebar-bottom > .wallet-sidebar-row:first-child {
+    margin-top: 0;
+}
+
+
+/* Confirmation loader */
+
+.wallet-sidebar-confirmation-loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    overflow: hidden;
+}
+
+.wallet-sidebar-confirmation-loader:after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0%;
+    transform: translate3D(-100%, 0, 0);
+    height: 100%;
+    width: 50%;
+    background: rgba(255, 255, 255, 1);
+    background: #fff;
+    animation: loading 2s linear 1s infinite;
+}
+
+@keyframes loading {
+    from {
+        transform: translate3D(-100%, 0, 0);
+    }
+    to {
+        transform: translate3D(200%, 0, 0);
+    }
+}
+
+@-webkit-keyframes loading {
+    from {
+        transform: translate3D(-100%, 0, 0);
+    }
+    to {
+        transform: translate3D(200%, 0, 0);
+    }
+}
+
+/* Responsiveness */
+@media (max-width: 850px) {
+    [sidebar-open] .container {
+        max-width: 450px;
+    }
+}
+
+@media (max-width: 800px) {
+    [sidebar-open] .container {
+        max-width: 400px;
+    }
+
+    [sidebar-open] #header-testnet-caption {
+        display: none;
+    }
+}
+
+@media (max-width: 750px) {
+    [sidebar-open] .container {
+        max-width: 350px;
+    }
+}
+
+@media (max-width: 680px) {
+    body {
+        display: block;
+    }
+
+    #wallet {
+        max-height: 100%;
+    }
+
+    .container {
+        max-width: 100% !important;
+        box-shadow: none;
+        border-radius: 0;
+        z-index: 0;
+    }
+
+    header {
+        border-radius: 0;
+    }
+
+    .wallet-sidebar-container {
+        display: none;
+    }
+
+    [sidebar-open] .wallet-sidebar-container {
+        display: flex;
+        position: absolute;
+        top: 72px; /* for the header */
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: auto;
+        z-index: 3;
+        width: auto;
+        padding: 0;
+    }
+
+    .wallet-sidebar {
+        display: none !important;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        border-radius: 0px;
+        transform: translate3D(0, 0, 0) !important;
+        box-shadow: none !important;
+    }
+
+    .wallet-sidebar.visible {
+        display: flex !important;
+    }
+
+    .wallet-sidebar-back {
+        display: none;
+    }
+
+    .wallet-sidebar-close {
+        display: block;
+        width: 20px;
+        height: 20px;
+    }
+
+    .wallet-sidebar-detail {
+        width: auto;
+        margin-right: 64px;
+    }
+
+    .wallet-sidebar-detail:last-child {
+        margin-right: 0;
+    }
+
+    #cashlink-creation-sidebar:not(.confirmed) .wallet-sidebar-leave {
+        display: none;
+    }
+
+    #header-testnet-caption {
+        display: inline !important;
+    }
+}
+
+@media (max-width: 560px) {
+    #wallet .small {
+        font-size: 16px;
+    }
+
+    header .logo {
+        left: 16px;
+    }
+
+    header #wallet-balance {
+        right: 16px;
+    }
+}
+
+@media (max-width: 470px) {
+    .wallet-sidebar h2 {
+        padding: 0 24px;
+    }
+
+    .wallet-sidebar-row {
+        margin: 20px 24px 0;
+    }
+
+    .share-buttons {
+        padding-left: 2px !important;
+        padding-right: 4px !important;
+    }
+}
+
+@media (max-width: 400px) {
+    #header-testnet-caption {
+        display: none !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .wallet-sidebar h2 {
+        max-width: none;
+    }
+
+    .wallet-sidebar-confirmation {
+        padding: 16px 24px;
+    }
+
+    .wallet-sidebar-confirmation h3 {
+        margin-bottom: 12px;
+    }
+
+    .wallet-sidebar-confirmation .wallet-sidebar-row {
+        margin: 16px 0 0;
+    }
+
+    .wallet-sidebar h2.title {
+        margin: 8px 0;
+    }
+
+    #error-message-container {
+        padding: 16px !important;
+        font-size: 16px;
+    }
+}
+
+/* Sync bar specific style */
+
+#disclaimer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 16px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 13px;
+}
+
+#disclaimer .uppercase {
+    letter-spacing: 2px;
+}
+
+.sync-spinner {
+    width: 72px;
+    margin-bottom: 16px !important;
+}
+
+[reconnect-button] {
+    margin-top: 8px;
+}
+
+#sync-sidebar h2 {
+    display: inherit;
+}
+
+.ellipsis>*:first-child {
+    animation: 1.5s ellipsis-first 0s infinite;
+}
+.ellipsis>*:nth-child(2) {
+    animation: 1.5s ellipsis-second 0s infinite;
+}
+.ellipsis>*:nth-child(3) {
+    animation: 1.5s ellipsis-third 0s infinite;
+}
+
+@keyframes ellipsis-first {
+    0% {
+        opacity: 0;
+    }
+    25% {
+        opacity: 1;
+    }
+    75% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+@keyframes ellipsis-second {
+    0% {
+        opacity: 0;
+    }
+    25% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    75% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+@keyframes ellipsis-third {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0;
+    }
+    75% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+
+/* cashlink creation bar specific style */
+
+#cashlink-creation-sidebar.confirmed {
+    background: #24C173;
+}
+
+#cashlink-creation-sidebar .wallet-sidebar-confirmation {
+    background: #E69E1E;
+}
+
+#cashlink-creation-sidebar.confirmed .wallet-sidebar-confirmation {
+    background: #21B069 !important;
+}
+
+#cashlink-creation-sidebar .wallet-sidebar-bottom {
+    padding-bottom: 0;
+}
+
+.send-via {
+    margin-bottom: 4px;
+    margin-top: 0;
+    opacity: 0.6;
+    font-size: 22px;
+    letter-spacing: 0;
+}
+
+.share-buttons {
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 12px;
+    padding-right: 8px;
+    margin-top: 8px;
+    line-height: 0;
+}
+
+.share-buttons a {
+    display: none;
+    max-width: 80px;
+    cursor: pointer;
+    padding: 20px;
+    box-sizing: border-box;
+    opacity: 0.7;
+    transition: opacity .3s;
+}
+
+#cashlink-creation-sidebar .share-buttons a {
+    -webkit-tap-highlight-color: rgba(246, 174, 45, 0.5);
+}
+
+#cashlink-creation-sidebar.confirmed .share-buttons a {
+    -webkit-tap-highlight-color: rgba(36, 193, 115, 0.6);
+}
+
+.share-buttons a:hover {
+    opacity: 1;
+}
+
+@keyframes fade-background-orange {
+    from {
+        background: #F6AE2D;
+    }
+    to {
+        background: transparent;
+    }
+}
+
+@keyframes fade-background-green {
+    from {
+        background: #24C173;
+    }
+    to {
+        background: transparent;
+    }
+}
+
+#cashlink-creation-sidebar .share-buttons a:active {
+    animation: fade-background-orange 0.3s forwards;
+}
+
+#cashlink-creation-sidebar.confirmed .share-buttons a:active {
+    animation: fade-background-green 0.3s forwards;
+}
+
+.share-buttons a img {
+    width: 100%;
+    pointer-events:none;
+}
+
+[copy-toast] {
+    padding: 16px;
+    position: absolute;
+    margin: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 25px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+}
+
+/* Cashlink receivement specific style */
+
+#cashlink-receivement-sidebar {
+    background: #24C173;
+}
+
+#cashlink-receivement-sidebar .wallet-sidebar-confirmation {
+    background: #21B069;
+}
+
+.cashlink-receivement-sidebar-sync {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.cashlink-receivement-sidebar-sync img {
+    margin: auto;
+    display: block;
+}
+
+.cashlink-receivement-sidebar-sync h2 {
+    text-align: center;
+    justify-content: center;
+    margin: 0;
+    padding-bottom: 8px;
+}
+
+.cashlink-receivement-sidebar-sync h3 {
+    text-align: center;
+    margin: 0;
+    margin-top: 4px;
+}
+
+[cashlink-message] {
+    color: rgb(15, 96, 88) !important; /* full opacity color to avoid that emojis are half transparent */
+    line-height: 25px;
+    max-height: 75px; /* 3 lines */
+    overflow: hidden;
+    display: -webkit-box; /* for webkit line clamping */
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    word-break: break-word !important;
+}
+
+#cashlink-receivement-sidebar:not([accepted]) [cashlink-amount] {
+    font-size: 64px;
+}
+
+#cashlink-receivement-sidebar:not([accepted]) [cashlink-amount]:before {
+    height: 42px;
+    width: 54px;
+}
+
+.cashlink-empty-warning {
+    text-align: center;
+}
+
+@keyframes show-cashlink-empty-warning {
+    from {
+        height: 0;
+    }
+    to {
+        height: 150px;
+    }
+}
+
+.cashlink-empty-warning-icon {
+    overflow: hidden;
+    animation: show-cashlink-empty-warning .5s forwards;
+}
+
+.cashlink-empty-warning-icon img {
+    display: block;
+    width: 150px;
+    height: 150px;
+    margin: auto;
+}
+
+
+/* faucet bar specific style */
+
+#faucet-sidebar h2 {
+    height: auto;
+    text-align: center;
+}
+
+#faucet-sidebar .wallet-sidebar-detail p {
+    color: white;
+}
+
+
+/* Error Messages */
+
+#error {
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+#error-message-container {
+    padding: 64px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#error-message, #error-sub-message {
+    color: #e2a62f;
+}
+
+#error.has-sub-message #error-message {
+    color: #032047;
+}
+
+#error-button {
+    margin-bottom: 16px;
+}
+
+[error] .wallet-sidebar-container, [error] .container > *:not(header):not(#error) {
+    display: none !important;
+}
+
+[error] #error {
+    display: flex;
+}
+
+[error] .container {
+    max-width: 500px !important;
+}
+
+.uppercase {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+[accept-cashlink-button] {
+    position: relative;
+    top: 12px;
+    font-size: 20px !important;
+    letter-spacing: 1.2px !important;
+    width: 100%;
+    padding: 32px;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: inherit;
+    font-weight: 600;
+    border: none;
+    flex: 0 0 auto;
+    background: #21B069;
+    color: white;
+    transition: background .2s ease, color .2s ease;
+}
+
+[accept-cashlink-button]:hover {
+    outline: none;
+    background: #1C9A5C;
+}

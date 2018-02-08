@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="style/fira.css">
     <link rel="stylesheet" href="style/style.css">
 
-    <script type="text/javascript" src="../dist/nimiq.js"></script>
+    <script type="text/javascript" src="../dist/Evo.js"></script>
     <script src="assets/script.min.js"></script>
     <script src="assets/evo.js"></script>
 </head>
@@ -19,7 +19,7 @@
     <header>
         <h1>
             <a href="#" onclick="_linkClicked(this, true);" >
-                <span class="nimiq-logo">
+                <span class="Evo-logo">
                     <!-- <svg fill="#e34a45" xmlns="http://www.w3.org/2000/svg" width="34" height="30"><path d="M25.2 1H8.8l-8 14 8 14h16.4l8-14-8-14zm-6.7 22V26H16v-2.6c-1.5 0-3.3-.8-4.5-2l1.7-2.4c1.3 1 2.4 1.5 3.6 1.5 1.4 0 2-.6 2-1.7 0-2.6-6.7-2.6-6.7-7 0-2.6 1.6-4.3 4-4.8V4.2h2.5v2.6c1.6.2 2.8 1 3.8 2l-2 2.2c-.8-1-1.6-1.3-2.7-1.3-1.2 0-2 .5-2 1.6.2 2.4 7 2.2 7 7 0 2.4-1.5 4.3-4 4.8z"></path></svg> -->
                 </span>
                 <img class="logo" src="assets/images/Evolve_trans.png"></img>
@@ -101,7 +101,7 @@
                 </div>
                 <div class="blockinfo-body-row">
                     <label>Transaction Value </label>
-                    <span><img src="icons/evo_blue.svg"> {%=_formatBalance(Nimiq.Policy.satoshisToCoins(o.transactionValue))%}</span>
+                    <span><img src="icons/evo_blue.svg"> {%=_formatBalance(Evo.Policy.satoshisToCoins(o.transactionValue))%}</span>
                 </div>
                 <div class="blockinfo-body-row">
                     <label>Difficulty </label>
@@ -142,7 +142,7 @@
                     <div class="blockinfo-transaction-row">
                         <hash id="{% var elementId = 'sender-address-' + i; _getAndWriteSenderAddressHash(o.transactions[i], elementId); print(elementId); %}"></hash>
                         <hash><a href="#{%=o.transactions[i].recipientAddr.toHex()%}" onclick="_linkClicked(this);">{%=o.transactions[i].recipientAddr.toHex()%}</a></hash>
-                        <span><img src="icons/evo_blue.svg"> {%=_formatBalance(Nimiq.Policy.satoshisToCoins(o.transactions[i].value))%}</span>
+                        <span><img src="icons/evo_blue.svg"> {%=_formatBalance(Evo.Policy.satoshisToCoins(o.transactions[i].value))%}</span>
                     </div>
                 {% } %}
             {% } else { %}
@@ -163,7 +163,7 @@
             <div class="blockinfo-body">
                 <div class="blockinfo-body-row">
                     <label>Balance </label>
-                    <span><img src="icons/evo_blue.svg"> {%=_formatBalance(Nimiq.Policy.satoshisToCoins(o.balance))%}</span>
+                    <span><img src="icons/evo_blue.svg"> {%=_formatBalance(Evo.Policy.satoshisToCoins(o.balance))%}</span>
                 </div>
                 <div class="blockinfo-body-row">
                     <label>Nonce </label>
@@ -208,11 +208,6 @@
             <p>
                 To learn more about the Evo blockchain, visit the
                 <a href="https://aneopsy.xyz"                            target="_blank">homepage</a>,
-                check out @nimiqnetwork on
-                <a href="https://twitter.com/nimiqnetwork"             target="_blank">Twitter</a> or
-                <a href="https://medium.com/nimiq-network"             target="_blank">Medium</a> and join the
-                <a href="https://nimiq-slackin.herokuapp.com/"         target="_blank">Slack</a> and
-                <a href="https://t.me/joinchat/AAAAAEJW-ozFwo7Er9jpHw" target="_blank">Telegram</a> channels.
             </p>
         </div>
     </script>
@@ -348,7 +343,7 @@
 
         function _getBlockInfo(hash, callback) {
             if(typeof hash === "string") {
-                hash = Nimiq.Hash.fromHex(hash);
+                hash = Evo.Hash.fromHex(hash);
             }
 
             $.blockchain.getBlock(hash).then(function(block) {
@@ -465,7 +460,7 @@
 
                 switch(format) {
                     case "Account Address":
-                        $.accounts.getBalance(Nimiq.Address.fromHex(value)).then(function(balance) {
+                        $.accounts.getBalance(Evo.Address.fromHex(value)).then(function(balance) {
                             var accountInfo = {
                                 hash: value,
                                 balance: balance.value,
@@ -601,7 +596,7 @@
             balances = balances.filter(balance => balance);
             balances.sort((a, b) => a > b ? -1 : a < b ? 1 : 0);
 
-            balances = balances.map(balance => Nimiq.Policy.satoshisToCoins(balance));
+            balances = balances.map(balance => Evo.Policy.satoshisToCoins(balance));
 
             var _renderWealthDisributionChart = function() {
                 var labels = [];
@@ -631,7 +626,7 @@
                     data: {
                         labels: labels,
                         datasets: [{
-                            label: "BetaNIM",
+                            label: "EvoCoin",
                             pointBackgroundColor: '#042146',
                             borderColor: '#042146',
                             data: balances
@@ -654,9 +649,9 @@
                                             return value;
                                         }
                                         else if(axisType === "logarithmic") {
-                                            // let blockRewardInNim = Nimiq.Policy.BLOCK_REWARD / Nimiq.Policy.SATOSHIS_PER_COIN;
+                                            // let blockRewardInNim = Evo.Policy.BLOCK_REWARD / Evo.Policy.SATOSHIS_PER_COIN;
 
-                                            let label = Math.round(parseFloat(value) * Nimiq.Policy.SATOSHIS_PER_COIN) / Nimiq.Policy.SATOSHIS_PER_COIN;
+                                            let label = Math.round(parseFloat(value) * Evo.Policy.SATOSHIS_PER_COIN) / Evo.Policy.SATOSHIS_PER_COIN;
 
                                             if(label.toString()[0] !== "1" && label.toString().slice(-1) !== "1") return null;
 
@@ -735,7 +730,7 @@
             // Set start time to 24h ago
             var startTime = Math.round(Date.now() / 1000) - 60 * 60 * 24;
 
-            for(var i = 0; i < $.blockchain.path.length; i += Nimiq.Policy.DIFFICULTY_ADJUSTMENT_BLOCKS) {
+            for(var i = 0; i < $.blockchain.path.length; i += Evo.Policy.DIFFICULTY_ADJUSTMENT_BLOCKS) {
                 const block = await $.blockchain.getBlock($.blockchain.path[i]);
 
                 if(block.timestamp >= startTime) {
@@ -747,7 +742,7 @@
             // const months = [null, "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
             // Calculate hashrate from difficulty
-            var hashrate  = difficulty.map(diff => Math.round(diff * Math.pow(2, 16) / Nimiq.Policy.BLOCK_TIME));
+            var hashrate  = difficulty.map(diff => Math.round(diff * Math.pow(2, 16) / Evo.Policy.BLOCK_TIME));
             var timelabel = timestamp.map(time => {
                 let date = new Date(time * 1000);
                 return /*date.getDate() + ". " + months[date.getMonth()] + " " + */date.toTimeString().slice(0, 5);
@@ -905,7 +900,7 @@
                 height.push(($.blockchain.height - counter + 1) + "-" + $.blockchain.height);
             }
 
-            transactionValue = transactionValue.map(value => Nimiq.Policy.satoshisToCoins(value));
+            transactionValue = transactionValue.map(value => Evo.Policy.satoshisToCoins(value));
 
             var _renderTransactionsPerBlockChart = function() {
                 try {

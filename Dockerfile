@@ -10,7 +10,7 @@ ARG PORT="8080"
 
 # Environment Variables which can be overriden at runtime
 ENV BRANCH="${BRANCH}"
-ENV RELEASE="https://github.com/nimiq-network/core/archive/${BRANCH}.tar.gz"
+ENV RELEASE="https://github.com/Evo-network/core/archive/${BRANCH}.tar.gz"
 ENV DOMAIN="${DOMAIN}"
 ENV WALLET_SEED="${WALLET_SEED}"
 ENV KEY="${KEY}"

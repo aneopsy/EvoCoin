@@ -18,7 +18,7 @@ class WebSocketConnector extends Observable {
 
         const httpsServer = https.createServer(options, (req, res) => {
             res.writeHead(200);
-            res.end('Nimiq NodeJS Client\n');
+            res.end('Evo NodeJS Client\n');
         }).listen(port);
 
         this._wss = new WebSocket.Server({server: httpsServer});

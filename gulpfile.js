@@ -221,10 +221,10 @@ gulp.task('build-loader', function () {
             .pipe(buffer())
             .pipe(sourcemaps.init())
             .pipe(uglify()),
-        gulp.src(['./src/main/platform/browser/utils/WindowDetector.js', './src/main/platform/browser/Nimiq.js'])
+        gulp.src(['./src/main/platform/browser/utils/WindowDetector.js', './src/main/platform/browser/Evo.js'])
             .pipe(sourcemaps.init())
             .pipe(babel(babel_loader)))
-        .pipe(concat('nimiq.js'))
+        .pipe(concat('Evo.js'))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('dist'));
 });
@@ -284,7 +284,7 @@ gulp.task('serve', ['watch'], function () {
     connect.server({
         livereload: true,
         serverInit: function () {
-            util.log(util.colors.blue('Nimiq Blockchain Cockpit will be at http://localhost:8080/clients/browser/'));
+            util.log(util.colors.blue('Evo Blockchain Cockpit will be at http://localhost:8080/clients/browser/'));
         }
     });
 });

@@ -107,14 +107,14 @@ Block.GENESIS.hash().then(hash => {
 /* Checkpoint Block */
 Block.CHECKPOINT = new Block(
     new BlockHeader(
-        /*prevHash*/ new Hash(BufferUtils.fromBase64('AAAABu9kraY76NSuSH5WWtQJCsNTwSLaZABC7ffbsaY=')),
-        /*bodyHash*/ new Hash(BufferUtils.fromBase64('zN8a1d0XIevSkE6Jg4tkyEOwu2J/7Gg4yJB2eGZVO3M=')),
-        /*accountsHash*/ new Hash(BufferUtils.fromBase64('uh8MJMb0wFcRB+VrDIUdxrEbemNVboT9h+u4pucKtxo=')),
-        /*nBits*/ 487246280,
-        /*height*/ 139271,
-        /*timestamp*/ 1506985604,
-        /*nonce*/ 575143,
-        /*version*/ 1),
+        new Hash(BufferUtils.fromBase64('AAAABu9kraY76NSuSH5WWtQJCsNTwSLaZABC7ffbsaY=')), /*prevHash*/
+        new Hash(BufferUtils.fromBase64('zN8a1d0XIevSkE6Jg4tkyEOwu2J/7Gg4yJB2eGZVO3M=')), /*bodyHash*/
+        new Hash(BufferUtils.fromBase64('uh8MJMb0wFcRB+VrDIUdxrEbemNVboT9h+u4pucKtxo=')), /*accountsHash*/
+        487246280, /*nBits*/
+        139271, /*height*/
+        1506985604, /*timestamp*/
+        575143, /*nonce*/
+        1), /*version*/
     new BlockBody(new Address(BufferUtils.fromBase64('FcJ8wuHATIz6B5i5l/t+98zBPu4=')), [])
 );
 Block.CHECKPOINT.hash().then(hash => {

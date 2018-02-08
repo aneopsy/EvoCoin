@@ -1,14 +1,14 @@
 /**
- * Base entry point to the Nimiq library.
+ * Base entry point to the Evo library.
  */
-class Nimiq {
+class Evo {
     /**
-     * Get the loaded instance of the Nimiq {@link Core}. {@link Nimiq.init} must be invoked before.
+     * Get the loaded instance of the Evo {@link Core}. {@link Evo.init} must be invoked before.
      * @returns {Core}
      */
     static get() {
-        if (!Nimiq._core) throw 'Nimiq.get() failed - not initialized yet. Call Nimiq.init() first.';
-        return Nimiq._core;
+        if (!Evo._core) throw 'Evo.get() failed - not initialized yet. Call Evo.init() first.';
+        return Evo._core;
     }
 
     static _loadScript(url, resolve) {
@@ -30,47 +30,47 @@ class Nimiq {
     }
 
     /**
-     * Load the Nimiq library.
+     * Load the Evo library.
      * @param {string|undefined} path Path that contains the required files to load the library.
      * @returns {Promise} Promise that resolves once the library was loaded.
      */
     static load(path) {
-        if (!Nimiq._hasNativePromise()) return Nimiq._unsupportedPromise();
-        Nimiq._loadPromise = Nimiq._loadPromise ||
+        if (!Evo._hasNativePromise()) return Evo._unsupportedPromise();
+        Evo._loadPromise = Evo._loadPromise ||
             new Promise(async (resolve, error) => {
                 let script = 'web.js';
 
-                if (!Nimiq._hasNativeClassSupport() || !Nimiq._hasProperScoping()) {
+                if (!Evo._hasNativeClassSupport() || !Evo._hasProperScoping()) {
                     console.error('Unsupported browser');
-                    error(Nimiq.ERR_UNSUPPORTED);
+                    error(Evo.ERR_UNSUPPORTED);
                     return;
-                } else if (!Nimiq._hasAsyncAwaitSupport()) {
+                } else if (!Evo._hasAsyncAwaitSupport()) {
                     script = 'web-babel.js';
                     console.warn('Client lacks native support for async');
-                } else if (!Nimiq._hasProperCryptoApi() || !Nimiq._hasProperWebRTCOrNone()) {
+                } else if (!Evo._hasProperCryptoApi() || !Evo._hasProperWebRTCOrNone()) {
                     script = 'web-crypto.js';
                     console.warn('Client lacks native support for crypto routines');
                 }
 
                 if (!path) {
-                    if (Nimiq._currentScript && Nimiq._currentScript.src.indexOf('/') !== -1) {
-                        path = Nimiq._currentScript.src.substring(0, Nimiq._currentScript.src.lastIndexOf('/') + 1);
+                    if (Evo._currentScript && Evo._currentScript.src.indexOf('/') !== -1) {
+                        path = Evo._currentScript.src.substring(0, Evo._currentScript.src.lastIndexOf('/') + 1);
                     } else {
                         // Fallback
                         path = './';
                     }
                 }
 
-                Nimiq._onload = () => {
-                    if (!Nimiq._loaded) {
-                        error(Nimiq.ERR_UNKNOWN);
+                Evo._onload = () => {
+                    if (!Evo._loaded) {
+                        error(Evo.ERR_UNKNOWN);
                     } else {
                         resolve();
                     }
                 };
-                Nimiq._loadScript(path + script, Nimiq._onload);
+                Evo._loadScript(path + script, Evo._onload);
             });
-        return Nimiq._loadPromise;
+        return Evo._loadPromise;
     }
 
     static _hasNativeClassSupport() {
@@ -116,7 +116,7 @@ class Nimiq {
     static _unsupportedPromise() {
         return {
             'catch': function (handler) {
-                handler(Nimiq.ERR_UNSUPPORTED);
+                handler(Evo.ERR_UNSUPPORTED);
             },
             'then': function () {}
         };
@@ -127,52 +127,52 @@ class Nimiq {
     }
 
     /**
-     * Load the Nimiq library, initialize and provide a {@link Core} instance.
+     * Load the Evo library, initialize and provide a {@link Core} instance.
      * @param {function(Core)} ready Function that is invoked once the Core was initialized.
      * @param {function(number)} error Function that is invoked if the call failed.
      * @param {object} options Options for the {@link Core} constructor.
      */
     static init(ready, error, options = {}) {
         // Don't initialize core twice.
-        if (Nimiq._core) {
-            console.warn('Nimiq.init() called more than once.');
-            if (ready) ready(Nimiq._core);
+        if (Evo._core) {
+            console.warn('Evo.init() called more than once.');
+            if (ready) ready(Evo._core);
             return;
         }
 
-        if (!Nimiq._hasNativePromise() || !Nimiq._hasNativeGoodies()) {
-            if (error) error(Nimiq.ERR_UNSUPPORTED);
+        if (!Evo._hasNativePromise() || !Evo._hasNativeGoodies()) {
+            if (error) error(Evo.ERR_UNSUPPORTED);
             return;
         }
 
         // Wait until there is only a single browser window open for this origin.
         WindowDetector.get().waitForSingleWindow(async function () {
             try {
-                await Nimiq.load();
-                console.log('Nimiq engine loaded.');
-                Nimiq._core = await new Nimiq.Core(options);
-                if (ready) ready(Nimiq._core);
+                await Evo.load();
+                console.log('Evo engine loaded.');
+                Evo._core = await new Evo.Core(options);
+                if (ready) ready(Evo._core);
             } catch (e) {
                 if (Number.isInteger(e)) {
                     if (error) error(e);
                 } else {
                     console.error('Error while initializing the core', e);
-                    if (error) error(Nimiq.ERR_UNKNOWN);
+                    if (error) error(Evo.ERR_UNKNOWN);
                 }
             }
-        }, () => error && error(Nimiq.ERR_WAIT));
+        }, () => error && error(Evo.ERR_WAIT));
     }
 }
-Nimiq._currentScript = document.currentScript;
-if (!Nimiq._currentScript) {
+Evo._currentScript = document.currentScript;
+if (!Evo._currentScript) {
     // Heuristic
     const scripts = document.getElementsByTagName('script');
-    Nimiq._currentScript = scripts[scripts.length - 1];
+    Evo._currentScript = scripts[scripts.length - 1];
 }
-Nimiq.ERR_WAIT = -1;
-Nimiq.ERR_UNSUPPORTED = -2;
-Nimiq.ERR_UNKNOWN = -3;
-Nimiq._core = null;
-Nimiq._onload = null;
-Nimiq._loaded = false;
-Nimiq._loadPromise = null;
+Evo.ERR_WAIT = -1;
+Evo.ERR_UNSUPPORTED = -2;
+Evo.ERR_UNKNOWN = -3;
+Evo._core = null;
+Evo._onload = null;
+Evo._loaded = false;
+Evo._loadPromise = null;

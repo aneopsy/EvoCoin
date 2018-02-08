@@ -4,7 +4,7 @@ class BaseTypedDB {
 
         const indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.OIndexedDB || window.msIndexedDB;
         const dbVersion = 4;
-        const request = indexedDB.open('nimiq', dbVersion);
+        const request = indexedDB.open('Evo', dbVersion);
 
         return new Promise((resolve, error) => {
             request.onsuccess = () => {

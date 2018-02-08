@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from nimiq.com/wallet/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Feb 2018 20:24:54 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Nimiq Testnet Wallet</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="description" content="Browser-based Blockchain and Ecosystem.">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://nimiq.com/static/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://nimiq.com/static/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://nimiq.com/static/icons/favicon-16x16.png">
+    <link rel="mask-icon" href="https://nimiq.com/static/icons/safari-pinned-tab.svg" color="#e2a62f">
+    <link rel="shortcut icon" href="https://nimiq.com/static/icons/favicon.ico">
+    <meta name="msapplication-config" content="https://nimiq.com/static/icons/browserconfig.xml">
+    <meta name="theme-color" content="#051931">
+    <meta name="msapplication-TileColor" content="#051931">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Nimiq Testnet Wallet">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#051931">
+    <meta name="apple-mobile-web-app-title" content="Nimiq Testnet Wallet">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="twitter:image" content="icons/logo-share.png" />
+    <meta name="twitter:author" content="@nimiqnetwork" />
+    <meta property="og:image" content="icons/logo-share.png" />
+    <meta property="og:url" content="https://nimiq.com/" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Nimiq Testnet Wallet" />
+    <meta property="og:description" content="The Browser-based Blockchain &amp; Ecosystem." />
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700" rel="stylesheet">
+</head>
+
+<body>
+    <div id="wallet" sidebar-open>
+        <div class="container">
+            <header>
+                <div class="logo">
+                    <a href="https://nimiq.com/">
+                        <svg fill="#F6AE2D" xmlns="http://www.w3.org/2000/svg" width="34" height="30">
+                            <path d="M25.2 1H8.8l-8 14 8 14h16.4l8-14-8-14zm-6.7 22V26H16v-2.6c-1.5 0-3.3-.8-4.5-2l1.7-2.4c1.3 1 2.4 1.5 3.6 1.5 1.4 0 2-.6 2-1.7 0-2.6-6.7-2.6-6.7-7 0-2.6 1.6-4.3 4-4.8V4.2h2.5v2.6c1.6.2 2.8 1 3.8 2l-2 2.2c-.8-1-1.6-1.3-2.7-1.3-1.2 0-2 .5-2 1.6.2 2.4 7 2.2 7 7 0 2.4-1.5 4.3-4 4.8z" />
+                        </svg>
+                    </a>
+                    <div class="uppercase">Nimiq <span id="header-testnet-caption">Testnet</span> Wallet</div>
+                </div>
+                <div id="wallet-balance" class="balance is-currency">&nbsp;</div>
+            </header>
+
+            <div class="wallet-pusher"></div>
+
+            <div class="wallet-tabbar">
+                <div class="wallet-tab active">Send Nimiq</div>
+            </div>
+
+            <div class="wallet-actions">
+                <div id="wallet-transfer">
+                    <div id="wallet-amount-input">
+                        <input required placeholder="0.00" />
+                    </div>
+                    <div id="wallet-message-input">
+                        <input placeholder="Enter note for recipient" />
+                    </div>
+                </div>
+
+                <button id="create-cashlink-button" disabled>
+                    <span>Create Cashlink</span>
+                </button>
+            </div>
+
+
+            <div id="error">
+                <noscript>
+                    <style>
+                        .wallet-sidebar-container, .container>*:not(header):not(#error) {
+                            display: none !important;
+                        }
+                        #error {
+                            display: flex;
+                        }
+                    </style>
+                </noscript>
+                <div id="error-message-container">
+                    <h1 id="error-message">
+                        Please enable Javascript
+                    </h1>
+                    <h2 id="error-sub-message"></h2>
+                </div>
+                <a href="https://nimiq.com/" id="error-button" class="secondary-button">Continue without Javascript</a>
+            </div>
+        </div>
+        <div class="wallet-sidebar-container">
+            <div id="faucet-sidebar" class="wallet-sidebar">
+                <button class="wallet-sidebar-leave">
+                    <img class="wallet-sidebar-back" src="icons/arrow_back.svg" />
+                    <img class="wallet-sidebar-close" src="icons/close.svg" />
+                </button>
+                <div sidebar-state-view="offer">
+                    <h2>
+                        Your Wallet is empty.
+                    </h2>
+                    <button tap-faucet-button class="button">
+                        Get a Free Luna Test Nimiq
+                    </button>
+                </div>
+                <div sidebar-state-view="confirming" class="wallet-sidebar-confirmation">
+                    <div class="wallet-sidebar-confirmation-loader"></div>
+                    <h3>Waiting for confirmation</h3>
+                    <div class="wallet-sidebar-row">
+                        <div class="wallet-sidebar-detail">
+                            <div class="label">Elapsed</div>
+                            <p elapsed-time>0:00</p>
+                        </div>
+                        <div class="wallet-sidebar-detail">
+                            <div class="label">Estimated</div>
+                            <p estimated-time>1:00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="cashlink-receivement-sidebar" class="wallet-sidebar">
+                <button class="wallet-sidebar-leave">
+                    <img class="wallet-sidebar-back" src="icons/arrow_back.svg" />
+                    <img class="wallet-sidebar-close" src="icons/close.svg" />
+                </button>
+                <h2 class="title">
+                    You received a Cashlink.
+                </h2>
+                <div class="wallet-sidebar-details">
+
+                    <div sidebar-state-view="syncing" class="wallet-sidebar-confirmation">
+                        <div class="wallet-sidebar-confirmation-loader"></div>
+                        <h3>Synchronizing<span class="ellipsis"><span>.</span><span>.</span><span>.</span></span></h3>
+                        <h3>Don't close the window.</h3>
+                    </div>
+                    <div sidebar-state-view="confirming" class="wallet-sidebar-confirmation">
+                        <div class="wallet-sidebar-confirmation-loader"></div>
+                        <h3>Waiting for confirmation<span class="ellipsis"><span>.</span><span>.</span><span>.</span></span></h3>
+                        <div class="wallet-sidebar-row">
+                            <div class="wallet-sidebar-detail">
+                                <div class="label">Elapsed</div>
+                                <p elapsed-time>0:00</p>
+                            </div>
+                            <div class="wallet-sidebar-detail">
+                                <div class="label">Estimated</div>
+                                <p estimated-time>1:00</p>
+                            </div>
+                        </div>
+                        <h3 window-close-hint>Don't close the window.</h3>
+                    </div>
+                    <div sidebar-state-view="cashlink-empty" class="wallet-sidebar-confirmation confirmed">
+                        <div class="cashlink-empty-warning-icon">
+                            <img src="icons/warning.svg" />
+                        </div>
+                        <h3 class="cashlink-empty-warning">
+                            This Cashlink is empty.
+                        </h3>
+                    </div>
+                    <div sidebar-state-view="confirmed" class="wallet-sidebar-confirmation confirmed">
+                        <h3>
+                            The transaction was successfully completed.
+                        </h3>
+                    </div>
+                </div>
+                <div class="wallet-sidebar-bottom">
+                    <div class="wallet-sidebar-row">
+                        <div class="wallet-sidebar-detail">
+                            <div class="label">Value</div>
+                            <p class="is-currency" cashlink-amount>0.00</p>
+                        </div>
+                        <!--<div class="wallet-sidebar-detail">
+                            <div class="label">Fee</div>
+                            <p class="is-currency">0.00</p>
+                        </div>-->
+                    </div>
+                    <div class="wallet-sidebar-row" cashlink-message-container>
+                        <div class="wallet-sidebar-detail">
+                            <div class="label">Message</div>
+                            <p cashlink-message></p>
+                        </div>
+                    </div>
+                </div>
+
+                <button accept-cashlink-button sidebar-state-view="accept">
+                    <span>Accept Cashlink</span>
+                </button>
+            </div>
+
+            <div id="cashlink-creation-sidebar" class="wallet-sidebar">
+                <button class="wallet-sidebar-leave">
+                    <img class="wallet-sidebar-back" src="icons/arrow_back.svg" />
+                    <img class="wallet-sidebar-close" src="icons/close.svg" />
+                </button>
+                <h2 class="title">
+                    Cashlink created.
+                </h2>
+                <div class="wallet-sidebar-details">
+                    <div sidebar-state-view="confirming" class="wallet-sidebar-confirmation">
+                        <div class="wallet-sidebar-confirmation-loader"></div>
+                        <h3>Waiting for confirmation<span class="ellipsis"><span>.</span><span>.</span><span>.</span></span></h3>
+                        <div class="wallet-sidebar-row">
+                            <div class="wallet-sidebar-detail">
+                                <div class="label">Elapsed</div>
+                                <p elapsed-time>0:00</p>
+                            </div>
+                            <div class="wallet-sidebar-detail">
+                                <div class="label">Estimated</div>
+                                <p estimated-time>1:00</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div sidebar-state-view="confirmed" class="wallet-sidebar-confirmation confirmed">
+                        <h3>The Cashlink is ready to be claimed by the recipient.</h3>
+                    </div>
+                    <div class="wallet-sidebar-row">
+                        <div class="wallet-sidebar-detail">
+                            <div class="label">Value</div>
+                            <p class="is-currency" cashlink-amount>0.00</p>
+                        </div>
+                        <!--<div class="wallet-sidebar-detail">
+                            <div class="label">Fee</div>
+                            <p class="is-currency">0.00</p>
+                        </div>-->
+                    </div>
+                </div>
+                <div class="wallet-sidebar-bottom">
+                    <div class="wallet-sidebar-row">
+                        <h3 class="send-via">Send Cashlink Via:</h3>
+                    </div>
+                    <div class="share-buttons">
+                        <a share-button-whatsapp>
+                            <img src="icons/whatsapp.svg" />
+                        </a>
+                        <a share-button-telegram>
+                            <img src="icons/telegram.svg" />
+                        </a>
+                        <!--<a share-button-facebook>
+                            <img src="icons/facebook.svg" />
+                        </a>-->
+                        <a share-button-sms>
+                            <img src="icons/speech-bubble.svg" />
+                        </a>
+                        <a share-button-mail>
+                            <img src="icons/envelope.svg" />
+                        </a>
+                        <a share-button-copy>
+                            <img src="icons/copy.svg" />
+                        </a>
+                        <div copy-toast>Cashlink Copied.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sync-sidebar" class="wallet-sidebar visible" style="display:flex">
+                <button class="wallet-sidebar-leave" style="display:none">
+                    <img class="wallet-sidebar-back" src="icons/arrow_back.svg" />
+                    <img class="wallet-sidebar-close" src="icons/close.svg" />
+                </button>
+                <div sidebar-state-view="loading" class="cashlink-receivement-sidebar-sync">
+                    <img class="sync-spinner" src="icons/loading-spinner.svg" />
+                    <h2>
+                        Loading Wallet<span class="ellipsis"><span>.</span><span>.</span><span>.</span></span>
+                    </h2>
+                </div>
+                <div sidebar-state-view="connecting" class="cashlink-receivement-sidebar-sync" style="display:none">
+                    <img class="sync-spinner" src="icons/loading-spinner.svg" />
+                    <h2>
+                        Connect to <span peer-count>0</span> peers<span class="ellipsis"><span>.</span><span>.</span><span>.</span></span>
+                    </h2>
+                </div>
+                <div sidebar-state-view="syncing" class="cashlink-receivement-sidebar-sync" style="display:none">
+                    <img class="sync-spinner" src="icons/loading-spinner.svg" />
+                    <h2>
+                        Synchronize<span class="ellipsis"><span>.</span><span>.</span><span>.</span></span>
+                    </h2>
+                </div>
+                <div sidebar-state-view="connection-lost" class="cashlink-receivement-sidebar-sync" style="display:none">
+                    <h2>
+                        You are disconnected from the network. Trying to reconnect<span class="ellipsis"><span>.</span><span>.</span><span>.</span></span>
+                    </h2>
+                    <button reconnect-button class="button">Reconnect</button>
+                </div>
+                <div sidebar-state-view="reconnect-failed" class="cashlink-receivement-sidebar-sync" style="display:none">
+                    <h2>
+                        Could not reconnect. Please reload the page.
+                    </h2>
+                    <button reconnect-button class="button">Reconnect</button>
+                </div>
+                <div id="disclaimer">
+                    <div class="uppercase">Disclaimer</div>
+                    You are connecting to the Nimiq Luna Testnet. Luna Nimiq are not permanent and may be reset at any time until the release of the Nimiq Mainnet.
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="error-manager.js"></script>
+    <script type="text/javascript" src="nimiq-loader.js"></script>
+    <script type="text/javascript" src="https://nimiq.com/cashlink-lib/dist/cashlink.js"></script>
+    <script type="text/javascript" src="clipboard.min.js"></script>
+    <script type="text/javascript" src="sidebars.js"></script>
+    <script type="text/javascript" src="wallet-ui.js"></script>
+</body>
+
+
+<!-- Mirrored from nimiq.com/wallet/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Feb 2018 20:25:11 GMT -->
+</html>

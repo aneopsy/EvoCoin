@@ -14,7 +14,6 @@ class PeerConnection extends Observable {
         this._closedByUs = false;
         this._closed = false;
 
-        // Unique id for this connection.
         this._id = PeerConnection._instanceCount++;
 
         if (this._channel.on) {
@@ -29,18 +28,13 @@ class PeerConnection extends Observable {
     }
 
     _onMessage(msg) {
-        // Don't emit messages if this channel is closed.
         if (this._closed) {
             return;
         }
-
-        // XXX Cleanup!
         if (!PlatformUtils.isBrowser() || !(msg instanceof Blob)) {
             this._bytesReceived += msg.byteLength || msg.length;
             this.fire('message', msg, this);
         } else {
-            // Browser only
-            // TODO FileReader is slow and this is ugly anyways. Improve!
             const reader = new FileReader();
             reader.onloadend = () => this._onMessage(new Uint8Array(reader.result));
             reader.readAsArrayBuffer(msg);
@@ -48,25 +42,16 @@ class PeerConnection extends Observable {
     }
 
     _onClose() {
-        // Don't fire close event again when already closed.
         if (this._closed) {
             return;
         }
-
-        // Mark this connection as closed.
         this._closed = true;
-
-        // Tell listeners that this connection has closed.
         this.fire('close', !this._closedByUs, this);
     }
 
     _close() {
         this._closedByUs = true;
-
-        // Don't wait for the native close event to fire.
         this._onClose();
-
-        // Close the native channel.
         this._channel.close();
     }
 
@@ -88,19 +73,16 @@ class PeerConnection extends Observable {
     send(msg) {
         const logAddress = this._peerAddress || this._netAddress;
         if (this._closed) {
-            // XXX Debug, spammy!!!
             Log.e(PeerConnection, `Tried to send data over closed connection to ${logAddress}`, MessageFactory.parse(msg));
             return false;
         }
 
-        // Fire close event (early) if channel is closing/closed.
         if (this._isChannelClosing() || this._isChannelClosed()) {
             Log.w(PeerConnection, `Not sending data to ${logAddress} - channel closing/closed (${this._channel.readyState})`);
             this._onClose();
             return false;
         }
 
-        // Don't attempt to send if channel is not (yet) open.
         if (!this._isChannelOpen()) {
             Log.w(PeerConnection, `Not sending data to ${logAddress} - channel not open (${this._channel.readyState})`);
             return false;
@@ -185,6 +167,5 @@ class PeerConnection extends Observable {
         return this._closed;
     }
 }
-// Used to generate unique PeerConnection ids.
 PeerConnection._instanceCount = 0;
 Class.register(PeerConnection);

@@ -49,20 +49,20 @@ if (!isSupportedBrowser()) {
     var scripts = ['script/geoip.js', 'script/map.js', 'script/wallet.js', 'script/block-explorer.js', 'script/miner.js', 'script/login.js'];
 
     // allow to load staging branch instead
-    var nimiq;
+    var Evo;
     if (window.location.hash === '#staging') {
-        nimiq = '../dist/nimiq.js';
+        Evo = '../dist/Evo.js';
     } else {
-        nimiq = '../dist/nimiq.js';
+        Evo = '../dist/Evo.js';
     }
 
-    window.nimiq_loaded = false;
+    window.Evo_loaded = false;
     var head = document.getElementsByTagName('head')[0];
 
     var ret = function() {
         // Load main script.
-        if (!window.nimiq_loaded) {
-            window.nimiq_loaded = true;
+        if (!window.Evo_loaded) {
+            window.Evo_loaded = true;
             for (var i = 0; i < scripts.length; ++i) {
                 var script = document.createElement('script');
                 script.type = 'text/javascript';
@@ -77,8 +77,8 @@ if (!isSupportedBrowser()) {
     script.onreadystatechange = ret;
     script.onload = ret;
     script.type = 'text/javascript';
-    script.src = nimiq;
-    console.log(nimiq);
+    script.src = Evo;
+    console.log(Evo);
     head.appendChild(script);
     this.connectWallet = document.querySelector('#login');
     this.connectWallet.style.display = 'block';

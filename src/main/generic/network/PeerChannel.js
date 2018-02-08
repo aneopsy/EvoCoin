@@ -3,8 +3,6 @@ class PeerChannel extends Observable {
         super();
         this._conn = connection;
         this._conn.on('message', msg => this._onMessage(msg));
-
-        // Forward specified events on the connection to listeners of this Observable.
         this.bubble(this._conn, 'close', 'error', 'ban');
     }
 
@@ -14,19 +12,9 @@ class PeerChannel extends Observable {
             msg = MessageFactory.parse(rawMsg);
         } catch(e) {
             Log.w(PeerChannel, `Failed to parse message from ${this.peerAddress || this.netAddress}: ${e}`);
-
-            // Ban client if it sends junk.
-            // TODO We should probably be more lenient here. Bitcoin sends a
-            // reject message if the message can't be decoded.
-            // From the Bitcoin Reference:
-            //  "Be careful of reject message feedback loops where two peers
-            //   each don’t understand each other’s reject messages and so keep
-            //   sending them back and forth forever."
             this.ban('junk received');
         }
-
         if (!msg) return;
-
         try {
             this.fire(msg.type, msg, this);
         } catch (e) {

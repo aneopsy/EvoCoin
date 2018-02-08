@@ -417,7 +417,7 @@ text-align: center;
   border-top-right-radius: 3px;
 }
 
-.info-block .icon-nimiq::before {
+.info-block .icon-Evo::before {
   font-size: 12px;
   margin-right: 2px;
 }
@@ -493,7 +493,7 @@ text-align: center;
   font-size: 16px;
 }
 
-#miningAnimation, #nimiqCoinIcon {
+#miningAnimation, #EvoCoinIcon {
   height: 23px;
 }
 
@@ -1480,7 +1480,7 @@ header {
   font-size: 16px;
 }
 
-#miningAnimation, #nimiqCoinIcon {
+#miningAnimation, #EvoCoinIcon {
   height: 23px;
 }
 

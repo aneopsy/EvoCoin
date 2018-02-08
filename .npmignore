@@ -2,7 +2,7 @@ clients/
 database/
 dist/node.js.map
 dist/web*
-dist/nimiq.js
+dist/Evo.js
 gulpfile.js
 jasmine.json
 karma.conf.js

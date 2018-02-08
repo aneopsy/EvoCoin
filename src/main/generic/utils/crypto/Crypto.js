@@ -274,7 +274,7 @@ class Crypto {
 
     // Hard hash implementation using light hash
     static async hashHard(arr) {
-        if (Crypto.lib._nimiq_callDigestDelayedWhenMining) {
+        if (Crypto.lib._Evo_callDigestDelayedWhenMining) {
             return await new Promise((resolve, error) => {
                 window.setTimeout(() => {
                     Crypto.hashLight(arr).then(resolve);

@@ -1,7 +1,7 @@
 {
   "name": "evocoin",
   "version": "1.0.0",
-  "homepage": "https://nimiq.com/",
+  "homepage": "https://Evo.com/",
   "description": "",
   "main": "dist/node.js",
   "private": true,
@@ -19,11 +19,11 @@
   },
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/nimiq-network/core/issues"
+    "url": "https://github.com/Evo-network/core/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nimiq-network/core.git"
+    "url": "https://github.com/Evo-network/core.git"
   },
   "engines": {
     "node": ">=7.9.0"

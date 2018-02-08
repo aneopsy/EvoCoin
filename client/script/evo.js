@@ -143,23 +143,23 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Base entry point to the Nimiq library.
+ * Base entry point to the Evo library.
  */
-var Nimiq = function () {
-    function Nimiq() {
-        (0, _classCallCheck3.default)(this, Nimiq);
+var Evo = function () {
+    function Evo() {
+        (0, _classCallCheck3.default)(this, Evo);
     }
 
-    (0, _createClass3.default)(Nimiq, null, [{
+    (0, _createClass3.default)(Evo, null, [{
         key: 'get',
 
         /**
-         * Get the loaded instance of the Nimiq {@link Core}. {@link Nimiq.init} must be invoked before.
+         * Get the loaded instance of the Evo {@link Core}. {@link Evo.init} must be invoked before.
          * @returns {Core}
          */
         value: function get() {
-            if (!Nimiq._core) throw 'Nimiq.get() failed - not initialized yet. Call Nimiq.init() first.';
-            return Nimiq._core;
+            if (!Evo._core) throw 'Evo.get() failed - not initialized yet. Call Evo.init() first.';
+            return Evo._core;
         }
     }, {
         key: '_loadScript',
@@ -184,7 +184,7 @@ var Nimiq = function () {
         }
 
         /**
-         * Load the Nimiq library.
+         * Load the Evo library.
          * @param {string|undefined} path Path that contains the required files to load the library.
          * @returns {Promise} Promise that resolves once the library was loaded.
          */
@@ -193,8 +193,8 @@ var Nimiq = function () {
         key: 'load',
         value: function load(path) {
             var _this = this;
-            if (!Nimiq._hasNativePromise()) return Nimiq._unsupportedPromise();
-            Nimiq._loadPromise = Nimiq._loadPromise || new Promise(function () {
+            if (!Evo._hasNativePromise()) return Evo._unsupportedPromise();
+            Evo._loadPromise = Evo._loadPromise || new Promise(function () {
                 var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(resolve, error) {
                     var script;
                     return _regenerator2.default.wrap(function _callee$(_context) {
@@ -204,42 +204,42 @@ var Nimiq = function () {
                                 case 0:
                                     script = 'web.js';
 
-                                    if (!(!Nimiq._hasNativeClassSupport() || !Nimiq._hasProperScoping())) {
+                                    if (!(!Evo._hasNativeClassSupport() || !Evo._hasProperScoping())) {
                                         _context.next = 7;
                                         break;
                                     }
 
                                     console.error('Unsupported browser');
-                                    error(Nimiq.ERR_UNSUPPORTED);
+                                    error(Evo.ERR_UNSUPPORTED);
                                     return _context.abrupt('return');
 
                                 case 7:
-                                    if (!Nimiq._hasAsyncAwaitSupport()) {
+                                    if (!Evo._hasAsyncAwaitSupport()) {
                                         script = 'web-babel.js';
                                         console.warn('Client lacks native support for async');
-                                    } else if (!Nimiq._hasProperCryptoApi() || !Nimiq._hasProperWebRTCOrNone()) {
+                                    } else if (!Evo._hasProperCryptoApi() || !Evo._hasProperWebRTCOrNone()) {
                                         script = 'web-crypto.js';
                                         console.warn('Client lacks native support for crypto routines');
                                     }
 
                                 case 8:
                                     if (!path) {
-                                        if (Nimiq._currentScript && Nimiq._currentScript.src.indexOf('/') !== -1) {
-                                            path = Nimiq._currentScript.src.substring(0, Nimiq._currentScript.src.lastIndexOf('/') + 1);
+                                        if (Evo._currentScript && Evo._currentScript.src.indexOf('/') !== -1) {
+                                            path = Evo._currentScript.src.substring(0, Evo._currentScript.src.lastIndexOf('/') + 1);
                                         } else {
                                             // Fallback
                                             path = './';
                                         }
                                     }
 
-                                    Nimiq._onload = function () {
-                                        if (!Nimiq._loaded) {
-                                            error(Nimiq.ERR_UNKNOWN);
+                                    Evo._onload = function () {
+                                        if (!Evo._loaded) {
+                                            error(Evo.ERR_UNKNOWN);
                                         } else {
                                             resolve();
                                         }
                                     };
-                                    Nimiq._loadScript(path + script, Nimiq._onload);
+                                    Evo._loadScript(path + script, Evo._onload);
 
                                 case 11:
                                 case 'end':
@@ -253,7 +253,7 @@ var Nimiq = function () {
                     return _ref.apply(this, arguments);
                 };
             }());
-            return Nimiq._loadPromise;
+            return Evo._loadPromise;
         }
     }, {
         key: '_hasNativeClassSupport',
@@ -306,7 +306,7 @@ var Nimiq = function () {
         value: function _unsupportedPromise() {
             return {
                 'catch': function _catch(handler) {
-                    handler(Nimiq.ERR_UNSUPPORTED);
+                    handler(Evo.ERR_UNSUPPORTED);
                 },
                 'then': function then() {}
             };
@@ -318,7 +318,7 @@ var Nimiq = function () {
         }
 
         /**
-         * Load the Nimiq library, initialize and provide a {@link Core} instance.
+         * Load the Evo library, initialize and provide a {@link Core} instance.
          * @param {function(Core)} ready Function that is invoked once the Core was initialized.
          * @param {function(number)} error Function that is invoked if the call failed.
          * @param {object} options Options for the {@link Core} constructor.
@@ -330,14 +330,14 @@ var Nimiq = function () {
             var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
             // Don't initialize core twice.
-            if (Nimiq._core) {
-                console.warn('Nimiq.init() called more than once.');
-                if (ready) ready(Nimiq._core);
+            if (Evo._core) {
+                console.warn('Evo.init() called more than once.');
+                if (ready) ready(Evo._core);
                 return;
             }
 
-            if (!Nimiq._hasNativePromise() || !Nimiq._hasNativeGoodies()) {
-                if (error) error(Nimiq.ERR_UNSUPPORTED);
+            if (!Evo._hasNativePromise() || !Evo._hasNativeGoodies()) {
+                if (error) error(Evo.ERR_UNSUPPORTED);
                 return;
             }
 
@@ -350,17 +350,17 @@ var Nimiq = function () {
                             case 0:
                                 _context2.prev = 0;
                                 _context2.next = 3;
-                                return Nimiq.load();
+                                return Evo.load();
 
                             case 3:
-                                console.log('Nimiq engine loaded.');
+                                console.log('Evo engine loaded.');
                                 _context2.next = 6;
-                                return new Nimiq.Core(options);
+                                return new Evo.Core(options);
 
                             case 6:
-                                Nimiq._core = _context2.sent;
+                                Evo._core = _context2.sent;
 
-                                if (ready) ready(Nimiq._core);
+                                if (ready) ready(Evo._core);
                                 _context2.next = 13;
                                 break;
 
@@ -372,7 +372,7 @@ var Nimiq = function () {
                                     if (error) error(_context2.t0);
                                 } else {
                                     console.error('Error while initializing the core', _context2.t0);
-                                    if (error) error(Nimiq.ERR_UNKNOWN);
+                                    if (error) error(Evo.ERR_UNKNOWN);
                                 }
 
                             case 13:
@@ -382,24 +382,24 @@ var Nimiq = function () {
                     }
                 }, _callee2, this, [[0, 10]]);
             })), function () {
-                return error && error(Nimiq.ERR_WAIT);
+                return error && error(Evo.ERR_WAIT);
             });
         }
     }]);
-    return Nimiq;
+    return Evo;
 }();
 
-Nimiq._currentScript = document.currentScript;
-if (!Nimiq._currentScript) {
+Evo._currentScript = document.currentScript;
+if (!Evo._currentScript) {
     // Heuristic
     var scripts = document.getElementsByTagName('script');
-    Nimiq._currentScript = scripts[scripts.length - 1];
+    Evo._currentScript = scripts[scripts.length - 1];
 }
-Nimiq.ERR_WAIT = -1;
-Nimiq.ERR_UNSUPPORTED = -2;
-Nimiq.ERR_UNKNOWN = -3;
-Nimiq._core = null;
-Nimiq._onload = null;
-Nimiq._loaded = false;
-Nimiq._loadPromise = null;
-//# sourceMappingURL=nimiq.js.map
+Evo.ERR_WAIT = -1;
+Evo.ERR_UNSUPPORTED = -2;
+Evo.ERR_UNKNOWN = -3;
+Evo._core = null;
+Evo._onload = null;
+Evo._loaded = false;
+Evo._loadPromise = null;
+//# sourceMappingURL=Evo.js.map

@@ -36,7 +36,7 @@ function _onPeersChanged() {
   document.getElementById('monitor').setAttribute('title', 'Connected to ' + $.network.peerCount + ' peers');
 }
 
-Nimiq.init(function($) {
+Evo.init(function($) {
   $status.innerText = 'synchronizing';
   $status.classList.add('synchronizing');
 
@@ -56,8 +56,8 @@ Nimiq.init(function($) {
 
   $.network.connect();
 }, function(error) {
-  console.error(error);
-  alert(error);
+  console.error("Error", error);
+  alert("A Miner is already running in another tab")
 });
 
 // Dummy object to prevent JS errors

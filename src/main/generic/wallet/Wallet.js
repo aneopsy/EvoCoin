@@ -1,4 +1,3 @@
-// TODO V2: Store private key encrypted
 class Wallet {
     static async getPersistent() {
         const db = new WalletStore();
@@ -14,6 +13,10 @@ class Wallet {
         return new Wallet(await KeyPair.generate());
     }
 
+    /**
+     * @param {Uint8Array|string} buf
+     * @return {Wallet}
+     */
     static load(hexBuf) {
         const hexMatch = hexBuf.match(/[0-9A-Fa-f]*/);
         if (hexBuf.length / 2 !== Crypto.privateKeySize || hexMatch[0] !== hexBuf) {
@@ -23,6 +26,10 @@ class Wallet {
         return new Wallet(KeyPair.fromHex(hexBuf));
     }
 
+    /**
+     * Create a new Wallet.
+     * @returns {Promise.<Wallet>} Newly created Wallet.
+     */
     constructor(keyPair) {
         this._keyPair = keyPair;
         return this._init();
@@ -33,8 +40,16 @@ class Wallet {
         return this;
     }
 
-    createTransaction(recipientAddr, value, fee, nonce) {
-        const transaction = new Transaction(this._keyPair.publicKey, recipientAddr, value, fee, nonce);
+    /**
+     * Create a Transaction that is signed by the owner of this Wallet.
+     * @param {Address} recipient Address of the transaction receiver
+     * @param {number} value Number of Satoshis to send.
+     * @param {number} fee Number of Satoshis to donate to the Miner.
+     * @param {number} nonce The nonce
+     * @returns {Transaction} A prepared and signed Transaction object. This still has to be sent to the network.
+     */
+    createTransaction(recipient, value, fee, nonce) {
+        const transaction = new Transaction(this._keyPair.publicKey, recipient, value, fee, nonce);
         return this._signTransaction(transaction);
     }
 
@@ -43,14 +58,23 @@ class Wallet {
         return transaction;
     }
 
+    /**
+     * The address of the Wallet owner.
+     * @type {Address}
+     */
     get address() {
         return this._address;
     }
 
+    /**
+     * The public key of the Wallet owner
+     * @type {PublicKey}
+     */
     get publicKey() {
         return this._keyPair.publicKey;
     }
 
+    /** @type {KeyPair} */
     get keyPair() {
         return this._keyPair;
     }

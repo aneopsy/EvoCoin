@@ -12,23 +12,23 @@ class WalletUI {
         this._receivingTx = null;
         this._receivingElapsed = 0;
 
-        this._accountContainer = $$('#wallet-account-input');
-        this._accountInput = $$('#wallet-account-input input');
+        this._accountContainer = document.querySelector('#wallet-account-input');
+        this._accountInput = document.querySelector('#wallet-account-input input');
         this._accountInput.onchange = () => this._validateAddress();
         this._accountInput.onkeyup = () => this._validateAddress();
 
-        this._amountContainer = $$('#wallet-amount-input');
-        this._amountInput = $$('#wallet-amount-input input');
+        this._amountContainer = document.querySelector('#wallet-amount-input');
+        this._amountInput = document.querySelector('#wallet-amount-input input');
         this._amountInput.onchange = () => this._validateAmount();
         this._amountInput.onkeyup = () => this._validateAmount();
 
-        this._sendTxBtn = $$('.wallet-submit-button');
+        this._sendTxBtn = document.querySelector('.wallet-submit-button');
         this._sendTxBtn.onclick = () => this._sendTx();
 
-        const accountAddr = $$('#wallet-account .address');
+        const accountAddr = document.querySelector('#wallet-account .address');
         accountAddr.innerText = $.wallet.address.toHex();
 
-        const wa = $$('#wallet-account');
+        const wa = document.querySelector('#wallet-account');
         wa.setAttribute('data-clipboard-text', $.wallet.address.toHex().toUpperCase());
         const clipboard = new Clipboard('#wallet-account');
         clipboard.on('success', () => {
@@ -42,11 +42,11 @@ class WalletUI {
         $.mempool.on('transaction-added', tx => this._onTxReceived(tx));
         $.mempool.on('transactions-ready', () => this._onTxsProcessed());
 
-        $$('#factBalanceContainer').onclick = () => this.show();
-        $$('#wallet-close').onclick = () => this.hide();
-        $$('#wallet-exit-area').onclick = () => this.hide();
+        document.querySelector('#factBalanceContainer').onclick = () => this.show();
+        document.querySelector('#wallet-close').onclick = () => this.hide();
+        document.querySelector('#wallet-exit-area').onclick = () => this.hide();
 
-        $$('.wallet-sidebar-leave').onclick = () => $$('#wallet').classList.remove('transaction-received');
+        document.querySelector('.wallet-sidebar-leave').onclick = () => document.querySelector('#wallet').classList.remove('transaction-received');
     }
 
     show() {
@@ -68,7 +68,7 @@ class WalletUI {
 
     _isAmountValid() {
         const amount = parseFloat(this._amountInput.value);
-        const satoshis = Nimiq.Policy.coinsToSatoshis(amount);
+        const satoshis = Evo.Policy.coinsToSatoshis(amount);
         return satoshis >= 1 / 1e8 && satoshis <= this._balance.value;
     }
 
@@ -83,7 +83,7 @@ class WalletUI {
 
     _onBalanceChanged(balance) {
         this._balance = balance;
-        $$('#wallet-balance').innerText = Nimiq.Policy.satoshisToCoins(balance.value).toFixed(2);
+        document.querySelector('#wallet-balance').innerText = Evo.Policy.satoshisToCoins(balance.value).toFixed(2);
     }
 
     _onTxReceived(tx) {
@@ -95,22 +95,22 @@ class WalletUI {
             }
 
             this._receivingElapsed = 0;
-            $$('#receivingElapsed').innerText = '0:00';
+            document.querySelector('#receivingElapsed').innerText = '0:00';
         }
 
-        tx.getSenderAddr().then(sender => $$('#receivingSender').innerText = sender.toHex());
-        $$('#receivingAmount').innerText = Nimiq.Policy.satoshisToCoins(tx.value).toFixed(2);
+        tx.getSenderAddr().then(sender => document.querySelector('#receivingSender').innerText = sender.toHex());
+        document.querySelector('#receivingAmount').innerText = Evo.Policy.satoshisToCoins(tx.value).toFixed(2);
 
         this._receivingInterval = setInterval(() => {
             this._receivingElapsed++;
             const minutes = Math.floor(this._receivingElapsed / 60);
             let seconds = this._receivingElapsed % 60;
             seconds = seconds < 10 ? '0' + seconds : seconds;
-            $$('#receivingElapsed').innerText = minutes + ':' + seconds;
+            document.querySelector('#receivingElapsed').innerText = minutes + ':' + seconds;
         }, 1000);
 
         this.show();
-        $$('#wallet').classList.add('transaction-received');
+        document.querySelector('#wallet').classList.add('transaction-received');
         this._receivingTx = tx;
     }
 
@@ -136,7 +136,7 @@ class WalletUI {
         if (!this._isAccountAddressValid() || !this._isAmountValid()) return;
 
         const recipient = this._accountInput.value;
-        const address = Nimiq.Address.fromHex(recipient);
+        const address = Evo.Address.fromHex(recipient);
 
         if (address.equals(this.$.wallet.address)) {
             alert('You cannot send transactions to yourself.');
@@ -144,7 +144,7 @@ class WalletUI {
         }
 
         const amount = parseFloat(this._amountInput.value);
-        const satoshis = Nimiq.Policy.coinsToSatoshis(amount);
+        const satoshis = Evo.Policy.coinsToSatoshis(amount);
 
         this.$.wallet.createTransaction(address, satoshis, 0, this._balance.nonce)
             .then(tx => {
@@ -165,18 +165,18 @@ class WalletUI {
         this._amountInput.disabled = true;
         this._sendTxBtn.disabled = true;
 
-        $$('#pendingReceiver').innerText = tx.recipientAddr.toHex();
-        $$('#pendingAmount').innerText = Nimiq.Policy.satoshisToCoins(tx.value).toFixed(2);
+        document.querySelector('#pendingReceiver').innerText = tx.recipientAddr.toHex();
+        document.querySelector('#pendingAmount').innerText = Evo.Policy.satoshisToCoins(tx.value).toFixed(2);
 
         this._pendingInterval = setInterval(() => {
             this._pendingElapsed++;
             const minutes = Math.floor(this._pendingElapsed / 60);
             let seconds = this._pendingElapsed % 60;
             seconds = seconds < 10 ? '0' + seconds : seconds;
-            $$('#pendingElapsed').innerText = minutes + ':' + seconds;
+            document.querySelector('#pendingElapsed').innerText = minutes + ':' + seconds;
         }, 1000);
 
-        $$('#wallet').classList.add('transaction-pending');
+        document.querySelector('#wallet').classList.add('transaction-pending');
         this._pendingTx = tx;
     }
 
@@ -187,9 +187,9 @@ class WalletUI {
         this._pendingTx = null;
         this._pendingElapsed = 0;
 
-        $$('#wallet').classList.remove('transaction-pending');
+        document.querySelector('#wallet').classList.remove('transaction-pending');
 
-        $$('#pendingElapsed').innerText = '0:00';
+        document.querySelector('#pendingElapsed').innerText = '0:00';
         if (this._pendingInterval) {
             clearInterval(this._pendingInterval);
             this._pendingInterval = null;
@@ -200,9 +200,9 @@ class WalletUI {
         this._receivingTx = null;
         this._receivingElapsed = 0;
 
-        $$('#wallet').classList.remove('transaction-received');
+        document.querySelector('#wallet').classList.remove('transaction-received');
 
-        $$('#receivingElapsed').innerText = '0:00';
+        document.querySelector('#receivingElapsed').innerText = '0:00';
         if (this._receivingInterval) {
             clearInterval(this._receivingInterval);
             this._receivingInterval = null;

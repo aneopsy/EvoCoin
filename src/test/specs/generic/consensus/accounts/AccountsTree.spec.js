@@ -491,7 +491,7 @@ describe('AccountsTree', () => {
         });
 
         /* Unfortunately, there is no import function at the time of this writing
-         * (cf. issue #172: https://github.com/nimiq-network/core/issues/172).
+         * (cf. issue #172: https://github.com/Evo-network/core/issues/172).
          * Hence, without making assumptions about the implementation of the export function, we can only check
          * if it outputs the correct amount of nodes.
         */
