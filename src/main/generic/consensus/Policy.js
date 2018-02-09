@@ -16,7 +16,7 @@ class Policy {
     }
 
     static get BLOCK_TARGET_MAX() {
-        return BlockUtils.compactToTarget(0x1d00ffff); // 21 -> 16 zero bits, bitcoin uses 32 (0x1d00ffff)
+        return BlockUtils.compactToTarget(0x1f00ffff); // 16 zero bits, bitcoin uses 32 (0x1d00ffff)
     }
 
     static get DIFFICULTY_ADJUSTMENT_BLOCKS() {
