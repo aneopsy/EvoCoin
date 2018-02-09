@@ -4,11 +4,11 @@ class Policy {
     }
 
     static get BLOCK_TIME() {
-        return 60; // Seconds
+        return 10; // Seconds
     }
 
     static get BLOCK_REWARD() {
-        return Policy.coinsToSatoshis(50);
+        return Policy.coinsToSatoshis(1);
     }
 
     static get BLOCK_SIZE_MAX() {
@@ -16,11 +16,11 @@ class Policy {
     }
 
     static get BLOCK_TARGET_MAX() {
-        return BlockUtils.compactToTarget(0x1f00ffff); // 16 zero bits, bitcoin uses 32 (0x1d00ffff)
+        return BlockUtils.compactToTarget(0x1d00ffff); // 21 -> 16 zero bits, bitcoin uses 32 (0x1d00ffff)
     }
 
     static get DIFFICULTY_ADJUSTMENT_BLOCKS() {
-        return 10; // Blocks
+        return 5; // Blocks
     }
 
     static coinsToSatoshis(coins) {
