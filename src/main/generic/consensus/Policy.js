@@ -4,7 +4,7 @@ class Policy {
     }
 
     static get BLOCK_TIME() {
-        return 60; // Seconds
+        return 10; // Seconds
     }
 
     static get BLOCK_REWARD() {
@@ -20,7 +20,7 @@ class Policy {
     }
 
     static get DIFFICULTY_ADJUSTMENT_BLOCKS() {
-        return 10; // Blocks
+        return 5; // Blocks
     }
 
     static coinsToSatoshis(coins) {
