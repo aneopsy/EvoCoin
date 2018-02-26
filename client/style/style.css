@@ -394,6 +394,7 @@ text-align: center;
   text-overflow: ellipsis;
   background-color: rgba(255, 255, 255, 0.89);
   color: #000;
+  font-size: 14px;
   letter-spacing: 0.3px;
 }
 

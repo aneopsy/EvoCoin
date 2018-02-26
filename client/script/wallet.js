@@ -27,6 +27,10 @@ class WalletUI {
 
         const accountAddr = document.querySelector('#wallet-account .address');
         accountAddr.innerText = $.wallet.address.toHex();
+        const infoAddr = document.querySelector('.information .address');
+        infoAddr.innerText = $.wallet.address.toHex();
+        const infoSeed = document.querySelector('.information .seed');
+        infoSeed.innerText = $.wallet.dump();
 
         const wa = document.querySelector('#wallet-account');
         wa.setAttribute('data-clipboard-text', $.wallet.address.toHex().toUpperCase());
@@ -47,6 +51,7 @@ class WalletUI {
         document.querySelector('#wallet-exit-area').onclick = () => this.hide();
 
         document.querySelector('.wallet-sidebar-leave').onclick = () => document.querySelector('#wallet').classList.remove('transaction-received');
+        document.querySelector('.wallet-open').onclick = () => this._onOpenWallet();
     }
 
     show() {
@@ -55,6 +60,7 @@ class WalletUI {
 
     hide() {
         document.body.removeAttribute('overlay');
+        this._onCloseWallet();
     }
 
     _isAccountAddressValid() {
@@ -84,6 +90,14 @@ class WalletUI {
     _onBalanceChanged(balance) {
         this._balance = balance;
         document.querySelector('#wallet-balance').innerText = Evo.Policy.satoshisToCoins(balance.value).toFixed(2);
+    }
+
+    _onOpenWallet(tx) {
+        document.querySelector('#wallet').classList.add('information');
+    }
+
+    _onCloseWallet(tx) {
+        document.querySelector('#wallet').classList.remove('information');
     }
 
     _onTxReceived(tx) {
